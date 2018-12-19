@@ -26,7 +26,7 @@ public:
     vector<Command*> getCommand() {
         return this->commandVector;
     }
-    bool calculateHappens();
+    bool calculateHappens(int *);
     string sub(string,int,int);
     int findS(string,string);
 };

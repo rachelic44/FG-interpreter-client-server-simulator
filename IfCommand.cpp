@@ -7,13 +7,16 @@
 
 
 double IfCommand::excecute() {
+    int index=0;
     ExpressionFactory expressionFactory(this->varMap,it);
-    if(this->calculateHappens()) {
+    if(this->calculateHappens(&index)) {
         while( (**it)!="}") {
-            expressionFactory.create(**it)->evaluate();
+            index+=expressionFactory.create(**it)->evaluate();
         }
     }
-    (*it)++;
+    (*it)++; index++;
   //  cout<<(**it);
-    (*it)++;
+    (*it)++; index++;
+    cout<<index;
+    return index;
 }

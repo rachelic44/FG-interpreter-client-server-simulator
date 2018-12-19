@@ -12,22 +12,24 @@ CommandAssign::CommandAssign(map<string,double >* varMap,vector<string>::iterato
 
 double CommandAssign::excecute() {
 
+    int index=0;
     string var=*(*it);
     if(this->varMap->count(var)==0) {
         __throw_logic_error("no such variable was declared");//todo change
     } else {
-        (*it)+=2;
+        (*it)+=2;  index+=2;
         string expressionToBe=(*(*it));
-        (*it)++;
+        (*it)++;  index++;
         while((*(*it))!="\n") {
             expressionToBe+=(*(*it));
-            (*it)++;
+            (*it)++;  index++;
         }
         //skip on the \n
-        (*it)++;
+        (*it)++;  index++;
         Expression* exp=new ShuntingYard(this->varMap,expressionToBe);
         double value=exp->evaluate();
         this->varMap->at(var)=value;
     }
+    return index;
 
 }

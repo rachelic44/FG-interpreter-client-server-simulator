@@ -27,29 +27,30 @@ bool func2(string& next) {
 }
 
 double CommandVar::excecute() {
+    int index=0;
     //to avoid the "var", put the value into var
-    (*it)++;
+    (*it)++; index++;
     string var=(*(*it));
     //"reach the "+""
-    (*it)++;
+    (*it)++; index++;
 
     if((**it)!="=") {
         throw logic_error("missing a '=' operator"); //todo check "var x;"
     }
-    (*it)++;
+    (*it)++; index++;
 
     //now - avoiding the spaces  that might have separated - reunion it to one string
     string expressionToBe=(*(*it));
-    (*it)++;
+    (*it)++; index++;
     while((*(*it))!="\n") {
         expressionToBe+=(*(*it));
-        (*it)++;
+        (*it)++; index++;
     }
     //skip on the \n
-    (*it)++;
+    (*it)++;  index++;
 
     Expression* exp=new ShuntingYard(this->varMap,expressionToBe);
     double value=exp->evaluate();
     this->varMap->insert({var,value});
-    return 0;
+    return index;
 }

@@ -24,22 +24,22 @@ double ConditionParser::excecute() {
 
 }
 
-bool ConditionParser::calculateHappens() {
+bool ConditionParser::calculateHappens(int * index) {
     if ((**it) != "while" && (**it) != "if") {
         __throw_logic_error("missing while or if");
     }
-    (*it)++;
+    (*it)++; (*index)++;
     string exp1 = "", first, second;
     while ((**it) != "{") {
         if((**it) != "\n") {
             exp1 += (**it);
         }
-        (*it)++;
+        (*it)++; (*index)++;
     }
 
-    (*it)++;
+    (*it)++; (*index)++;
     if((**it) == "\n") {
-        (*it)++;
+        (*it)++; (*index)++;
     }
 
     int found = 0, sign = 0, i = 0;
@@ -82,7 +82,7 @@ bool ConditionParser::calculateHappens() {
     }
 
     if((**it) == "\n") {
-        (*it)++;
+        (*it)++;(*index)++;
     }
     return this->happens;
 }
