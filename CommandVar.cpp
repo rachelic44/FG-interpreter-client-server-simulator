@@ -34,7 +34,7 @@ double CommandVar::excecute() {
     //"reach the "+""
     (*it)++; index++;
 
-    if((**it)!="=") {
+    if((*(*it))!="=") {
         throw logic_error("missing a '=' operator"); //todo check "var x;"
     }
     (*it)++; index++;
