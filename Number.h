@@ -7,14 +7,15 @@
 
 
 #include "UnaryExpression.h"
-
+#include <iostream>
+using namespace std;
 
 class Number: public Expression {
 
 
 
 
-private: double value;
+private: string value;
 
 /**
 * constructor.
@@ -23,7 +24,7 @@ private: double value;
  */
 public:
 
-    Number(double number) {
+    Number(string number) {
             this->value = number;
         }
 
@@ -36,12 +37,14 @@ public:
          */
         double evaluate();
 
+        virtual void setValues(Expression* exp1,Expression* exp2);
+
         /**
          * getValue().
          *
          * @return the value of the number.
          */
-        double getValue();
+        string getValue();
 
 };
 

@@ -58,6 +58,7 @@ virtual void setLeftExpression(Expression* leftExpressionGiven) {
  */
 virtual void setRightExpression(Expression* rightExpressionnGiven) {
         this->rightExpression = rightExpression;
+
 }
 
 virtual void setValues(Expression* exp1,Expression* exp2) {

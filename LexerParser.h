@@ -7,12 +7,24 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 using namespace std;
 
 class LexerParser {
 
+private:
+    map<string,double > varMap;
+    vector<string> lexeredWord;
+
 public:
-    vector<string> splitter(string,char);
+    vector<string> splitter(string);
+    void parser(vector <string> stringVector);
+    map<string,double > getVarMap() {
+        return this->varMap;
+    }
+    vector<string> getLexeredWord() {
+        return this->lexeredWord;
+    }
 };
 
 
