@@ -12,7 +12,11 @@ double IfCommand::excecute() {
     if(this->calculateHappens(&index)) {
         cout<<endl<<index<<endl;
         while( (**it)!="}") {
-            index+=expressionFactory.create(**it)->evaluate();
+            if (expressionFactory.create(**it) == NULL) {
+                index+=expressionFactory.create("=")->evaluate();
+            } else {
+                index += expressionFactory.create(**it)->evaluate();
+            }
         }
     } else {
         cout<<endl<<index<<endl;

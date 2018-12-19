@@ -21,20 +21,38 @@ vector<string> LexerParser::splitter(string str) {
     // Vector of string to save tokens
     vector<string> tokens;
     int i = 0;
+    int p=0;
     int sign=0;
     string word = "";
     while(i<(str.length()-1)) {
-        if((str[i]=='=') || (str[i]=='{')  || (str[i]=='}') )  {
-            if(str[i-1]!=' ') {
+        if ((str[i] == '=')) {
+            if (str[i - 1] != ' ') {
                 str.insert(i, " ");
                 i++;
             }
-            if(str[i+1]!=' ') {
+            if (str[i + 1] != ' ') {
                 str.insert(i + 1, " ");
                 i++;
             }
+        } else {
+            if ((str[i] == '{') || (str[i] == '}')) {
+                if (str[i - 1] != '\n') {
+                    str.insert(i, "\n");
+                    i++;
+                }
+                if (str[i + 1] != '\n') {
+                    str.insert(i + 1, "\n");
+                    i++;
+                }
+            }
         }
         i++;
+    }
+    if(str[str.length()-1] !='\n') {
+        if(str[str.length()-1]=='{') {
+            str.insert(str.length()-1,"\n");
+        }
+        str+="\n";
     }
     i=0;
     while (i < str.length()) {

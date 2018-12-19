@@ -21,8 +21,11 @@ double CommandAssign::excecute() {
         string expressionToBe=(*(*it));
         (*it)++;  index++;
         while((*(*it))!="\n") {
-            expressionToBe+=(*(*it));
-            (*it)++;  index++;
+            if(((*(*it))!="{")) {
+                expressionToBe += (*(*it));
+                (*it)++;
+                index++;
+            }
         }
         //skip on the \n
         (*it)++;  index++;

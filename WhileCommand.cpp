@@ -11,16 +11,20 @@ double WhileCommand::excecute() {
     int index=0; int pos=0;
     ExpressionFactory expressionFactory(this->varMap,it);
     while(this->calculateHappens(&index)) {
-        pos=index;
         while( (**it)!="}") {
-            index+=expressionFactory.create(**it)->evaluate();
+            if (expressionFactory.create(**it) == NULL) {
+                index+=expressionFactory.create("=")->evaluate();
+            } else {
+                index += expressionFactory.create(**it)->evaluate();
+            }
         }
-        index+=(index-pos);
+        (*it)-=index;
 
     }
     while((**it)!="}" ) {
         (*it)++; index++;
     }
+    //to avoid the \n
     (*it)++; index++;
     //  cout<<(**it);
     (*it)++; index++;

@@ -21,7 +21,7 @@
 using namespace std;
 
 int main() {
-
+/*
 
  map<string, double> map;
  string p="3+2/4";
@@ -31,12 +31,14 @@ int main() {
 cout<<p<<"="<<shan.evaluate();
 
 LexerParser lexerParser;
-string string1="var x = 5\n while x<6 {\n x=7 }\n";
+string string1="if 3!=5 { if 3 != 5 { var t=7 } var c=2*(3 +5) } c=6";
+//string string1="var x = 5\n while x<6 { x=7 }";
 vector<string>vec =lexerParser.splitter(string1);
 lexerParser.parser(vec);
-//cout<<endl<<lexerParser.getVarMap().at("c");
+cout<<endl<<lexerParser.getVarMap().at("c");
 int y=6;
 string yu="7";
+ */
 
 return 0;
 }
