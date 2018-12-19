@@ -36,7 +36,7 @@ vector<string>vec =lexerParser.splitter(string1);
 lexerParser.parser(vec);
 cout<<endl<<lexerParser.getVarMap().at("c");
 int y=6;
-string yu="popp";
+string yu="pop999p";
 
 return 0;
 }
