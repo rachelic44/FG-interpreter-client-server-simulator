@@ -31,7 +31,7 @@ int main() {
 cout<<p<<"="<<shan.evaluate();
 
 LexerParser lexerParser;
-string string1="if 3<5 {\n var c=2 \n}\n";
+string string1="if 3==5 {\n var c=2 \n}\n";
 vector<string>vec =lexerParser.splitter(string1);
 lexerParser.parser(vec);
 cout<<endl<<lexerParser.getVarMap().at("c");

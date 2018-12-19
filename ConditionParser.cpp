@@ -95,7 +95,7 @@ int ConditionParser::findS(string word, string f) {
                 if(word[i+1]!=f[j+1]) {
                     return -1;
                 } else {
-                    return i-1;
+                    return i;
                 }
             } else {
                 return i;
