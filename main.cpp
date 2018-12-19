@@ -31,10 +31,10 @@ int main() {
 cout<<p<<"="<<shan.evaluate();
 
 LexerParser lexerParser;
-string string1="if 3!=5 {\n var c=2 \n}\nvar b=6\n";
+string string1="var x = 5\n while x<6 {\n x=7 }\n";
 vector<string>vec =lexerParser.splitter(string1);
 lexerParser.parser(vec);
-cout<<endl<<lexerParser.getVarMap().at("c");
+//cout<<endl<<lexerParser.getVarMap().at("c");
 int y=6;
 string yu="7";
 
