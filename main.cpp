@@ -34,7 +34,7 @@ cout<<p<<"="<<shan.evaluate()<<endl;
 
 LexerParser lexerParser;
 //string string1="if 3!=5 { if 3 != 5 { var t=7 } var c=2*(3 +5) } c=6";
-string string1="var x=5\n print x*-6";
+string string1="var x=5\n print x*-6-6\n";
 vector<string>vec =lexerParser.splitter(string1);
 lexerParser.parser(vec);
 //cout<<endl<<lexerParser.getVarMap().at("x");
