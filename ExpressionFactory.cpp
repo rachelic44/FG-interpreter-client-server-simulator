@@ -8,6 +8,7 @@
 #include "CommandAssign.h"
 #include "IfCommand.h"
 #include "WhileCommand.h"
+#include "PrintCommand.h"
 
 ExpressionFactory::ExpressionFactory(map<string, double> *varMap, vector<string>::iterator* it) {
     this->varMap=varMap;
@@ -26,5 +27,9 @@ Expression* ExpressionFactory::create(string word) {
     if(word=="while") {
         return new ExpressionCommand(new WhileCommand(varMap,it));
     }
+    if(word=="print") {
+        return new ExpressionCommand(new PrintCommand(varMap,it));
+    }
+
     return NULL; //chack todo if it is a null - then it is supposed to ba a line starts with variable
 }

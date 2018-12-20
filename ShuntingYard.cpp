@@ -16,7 +16,9 @@ ShuntingYard::ShuntingYard(map<string, double>* map1,string tokens) {
 * @return 0 for wrong input
 */
 int ShuntingYard::precedence(char op) {
-    if (op == '+' || op == '-')
+    if (op == '+' )
+        return 1;
+    if (op == '-' )
         return 1;
     if (op == '*' || op == '/')
         return 2;
@@ -33,11 +35,29 @@ double ShuntingYard::evaluate() {
     string tokens=this->tokens;
     stack<char> operatorStack;
     stack<string> finalStack;
-    int i = 0;
+
+    int i = 0, sign=0, keep=0;
     //go over the string
     while (i < tokens.length()) {
         //if it is (+ - / * ), then push it to the stack according to the arithmetic order
         if (tokens[i] == '+' || tokens[i] == '-' || tokens[i] == '/' || tokens[i] == '*') {
+            if(tokens[i]=='-' && i==0) {
+                sign++;
+            } else if( tokens[i]=='-' && (tokens[i-1]=='-' ||tokens[i-1]=='*' ||tokens[i-1]=='/' ||tokens[i-1]=='+')) {
+                sign++;
+            }
+            if(sign) {
+                keep=i;
+                tokens.insert(i,"(0");
+                while(tokens[i+3] !='(' && tokens[i+3] !=')' && tokens[i+3] !='+' && tokens[i+3] !='-' &&
+                      tokens[i+3] !='*' && tokens[i+3] !='/' && tokens[i+3] !='\0') {
+                    i++;
+                }
+                tokens.insert(i+3,")");
+                sign=0;
+                i=keep;
+                continue;
+            }
             addAnArithmetic(&operatorStack, &finalStack, tokens[i]);
             i++;
             //if it is a digit, read all of the digits that comes after, then push the number to the stack
@@ -82,6 +102,7 @@ double ShuntingYard::evaluate() {
         refeal(&operatorStack,&finalStack);
     }
 
+
     Expression* result=calculate(&finalStack);
     return result->evaluate();
 }
@@ -102,11 +123,15 @@ void ShuntingYard::addAnArithmetic(stack<char> *operatorStack, stack<string> *fi
 
     if (!operatorStack->empty()) {
         char last = (operatorStack->top());
-        if (precedence(last) > precedence(act)) {
+        while (precedence(last) > precedence(act)) {
             string opStr;
             opStr.push_back(last);
             finalStack->push(opStr);
             operatorStack->pop();
+            if(operatorStack->empty()) {
+                break;
+            }
+            last = (operatorStack->top());
         }
     }
     operatorStack->push(act);

@@ -20,9 +20,7 @@ vector<string> LexerParser::splitter(string str) {
 
     // Vector of string to save tokens
     vector<string> tokens;
-    int i = 0;
-    int p=0;
-    int sign=0;
+    int i = 0, sign=0;
     string word = "";
     while(i<(str.length()-1)) {
         if ((str[i] == '=')) {
@@ -80,7 +78,6 @@ vector<string> LexerParser::splitter(string str) {
     }
     this->lexeredWord = tokens;
     return tokens;
-
 }
 
 

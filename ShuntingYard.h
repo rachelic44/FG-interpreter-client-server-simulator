@@ -15,7 +15,8 @@
 #include "Number.h"
 #include "LexerParser.h"
 #include <stack>
-#include <stack>
+#include <queue>
+#include <deque>
 #include <map>
 using namespace std;
 
