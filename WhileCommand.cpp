@@ -9,25 +9,28 @@
 
 double WhileCommand::excecute() {
     int index=0; int pos=0;
+    vector<string>::iterator last=(*it);
     ExpressionFactory expressionFactory(this->varMap,it);
     while(this->calculateHappens(&index)) {
+        index=0;
+        //last=(*it);
         while( (**it)!="}") {
-            if (expressionFactory.create(**it) == NULL) {
-                index+=expressionFactory.create("=")->evaluate();
-            } else {
-                index += expressionFactory.create(**it)->evaluate();
-            }
+
+            index += expressionFactory.create(**it)->evaluate();
         }
-        (*it)-=index;
+        (*it)=last;
+        last=(*it);
 
     }
     while((**it)!="}" ) {
         (*it)++; index++;
     }
-    //to avoid the \n
+    //skip the }
     (*it)++; index++;
-    //  cout<<(**it);
-    (*it)++; index++;
-    cout<<index;
+
+    if((**it)=="\n") {
+        (*it)++;
+        index++;
+    }
     return index;
 }

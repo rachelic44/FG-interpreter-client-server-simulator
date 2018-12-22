@@ -23,7 +23,7 @@ vector<string> LexerParser::splitter(string str) {
     int i = 0, sign=0;
     string word = "";
     while(i<(str.length()-1)) {
-        if ((str[i] == '=')) {
+        if ((str[i] == '=') || (str[i] == '{') || (str[i] == '}')) {
             if (str[i - 1] != ' ') {
                 str.insert(i, " ");
                 i++;
@@ -32,49 +32,36 @@ vector<string> LexerParser::splitter(string str) {
                 str.insert(i + 1, " ");
                 i++;
             }
-        } else {
-            if ((str[i] == '{') || (str[i] == '}')) {
-                if (str[i - 1] != '\n') {
-                    str.insert(i, "\n");
-                    i++;
-                }
-                if (str[i + 1] != '\n') {
-                    str.insert(i + 1, "\n");
-                    i++;
-                }
-            }
         }
         i++;
     }
-    if(str[str.length()-1] !='\n') {
-        if(str[str.length()-1]=='{') {
-            str.insert(str.length()-1,"\n");
+
+    //top case
+    if(str[str.length()-1]=='}') {
+        if (str[str.length()-2] != ' ') {
+            str.insert(str.length()-1, " ");
         }
-        str+="\n";
+        str+=" ";
     }
     i=0;
     while (i < str.length()) {
-        if (!(str[i] == ' ') && !(str[i] == '\n') && !(str[i] == '\r')) {
+        if (!(str[i] == ' ') && !(str[i] == '\n') && !(str[i] == '\r')&& !(str[i] == '\0')) {
             word += str[i];
             i++;
         } else {
-            if( (str[i] == '\n') || (str[i] == '\r') ) {
-                sign++;
-            }
             i++;
-            while ((str[i] == ' ') || (str[i] == '\n') || (str[i] == '\r')) {
-                if( (str[i] == '\n') || (str[i] == '\r') ) {
-                    sign++;
-                }
+            while ((str[i] == ' ') || (str[i] == '\n') || (str[i] == '\r') || (str[i] == '\0')) {
                 i++;
             }
             tokens.push_back(word);
-            if(sign) { //a sign for an end of line we will have
-                tokens.push_back("\n");
-                sign=0;
-            }
             word = "";
         }
+    }
+    if(word!="") {
+        tokens.push_back(word);
+    }
+    if(tokens.back()!= "\n") {
+        tokens.push_back("\n");
     }
     this->lexeredWord = tokens;
     return tokens;
@@ -97,7 +84,7 @@ void LexerParser::parser(vector<string> stringVector) {
     mapp.insert({VAR,expressionFactory.create("+")});*/ //!!!
 
     //go over the list and for each command - execute it.
-    while (it != this->lexeredWord.end()) {
+    while (it != this->lexeredWord.end() && (*it) != "\n") {
 
         //if the command map has no such command
         if (expressionFactory.create(*it) == NULL) {

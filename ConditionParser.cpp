@@ -31,30 +31,36 @@ bool ConditionParser::calculateHappens(int * index) {
     (*it)++; (*index)++;
     string exp1 = "", first, second;
     while ((**it) != "{") {
-        if((**it) != "\n") {
-            exp1 += (**it);
-        }
+        exp1 += (**it);
         (*it)++; (*index)++;
     }
 
     (*it)++; (*index)++;
-    if((**it) == "\n") {
-        (*it)++; (*index)++;
-    }
+
 
     int found = 0, sign = 0, i = 0;
     string operat;
     Expression *expression1;
     Expression *expression2;
     vector<string> operatorsVec = {"<=", ">=", "<", ">", "!=", "=="};
+    vector<string> meanWhile;
+    vector<string>::iterator itWhile;
+    vector<string> meanWhile2;
+    vector<string>::iterator itWhile2;
     while (i < 6) {
         operat = operatorsVec.at(i);
         if (findS(exp1,operat)>=0) {
             found = findS(exp1,operat);
             first = sub(exp1, 0, found);
+            meanWhile.push_back(first);
+            meanWhile.push_back("\n");
+            itWhile=meanWhile.begin();
             second = sub(exp1, found + operat.length(), exp1.length());
-            expression1 = new ShuntingYard(this->varMap, first);
-            expression2 = new ShuntingYard(this->varMap, second);
+            meanWhile2.push_back(second);
+            meanWhile2.push_back("\n");
+            itWhile2=meanWhile2.begin();
+            expression1 = new ShuntingYard(this->varMap, &itWhile);
+            expression2 = new ShuntingYard(this->varMap, &itWhile2);
             sign++;
             break;
         }
@@ -81,9 +87,7 @@ bool ConditionParser::calculateHappens(int * index) {
         this->happens = false;
     }
 
-    if((**it) == "\n") {
-        (*it)++;(*index)++;
-    }
+
     return this->happens;
 }
 

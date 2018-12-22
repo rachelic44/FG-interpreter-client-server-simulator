@@ -5,7 +5,7 @@
 #include "Number.h"
 
 double Number::evaluate() {
-    return stoi(this->value);
+    return stod(this->value);
 }
 
 string Number::getValue() {

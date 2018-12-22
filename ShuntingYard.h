@@ -24,6 +24,7 @@ class ShuntingYard : public Expression {
 
 private:
     map<string,double>* valMap;
+    vector<string>::iterator* it;
     string tokens;
     void addAnArithmetic(stack<char>* operatorStack, stack<string>* finalStack, char act);
     void refeal(stack<char>* operatorStack, stack<string>* finalStack);
@@ -31,7 +32,8 @@ private:
     int precedence(char op);
 
 public:
-    ShuntingYard(map<string, double>* map1,string tokens);
+    string evaluateTokens(vector<string>::iterator* it);
+    ShuntingYard(map<string, double>* map1, vector<string>::iterator* it);
     double evaluate();
     virtual void setValues(Expression* exp1,Expression* exp2){
 

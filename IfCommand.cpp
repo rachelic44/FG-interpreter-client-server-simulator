@@ -10,8 +10,8 @@ double IfCommand::excecute() {
     int index=0;
     ExpressionFactory expressionFactory(this->varMap,it);
     if(this->calculateHappens(&index)) {
-        cout<<endl<<index<<endl;
         while( (**it)!="}") {
+            string woird=(*(*it));
             if (expressionFactory.create(**it) == NULL) {
                 index+=expressionFactory.create("=")->evaluate();
             } else {
@@ -25,8 +25,6 @@ double IfCommand::excecute() {
         }
     }
     (*it)++; index++;
-  //  cout<<(**it);
-    (*it)++; index++;
-    cout<<index;
+
     return index;
 }

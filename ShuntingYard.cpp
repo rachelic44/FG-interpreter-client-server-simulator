@@ -5,8 +5,8 @@
 #include "ShuntingYard.h"
 
 
-ShuntingYard::ShuntingYard(map<string, double>* map1,string tokens) {
-    this->tokens=tokens;
+ShuntingYard::ShuntingYard(map<string, double>* map1,vector<string>::iterator* it) {
+    this->it=it;
     this->valMap=map1;
 }
 
@@ -25,6 +25,51 @@ int ShuntingYard::precedence(char op) {
     return 0;
 }
 
+bool isOpenOperator(char next) {
+    if(next=='*' || next=='-' || next=='+' || next=='/' || (next=='(')) {
+        return true;
+    }
+    return false;
+}
+
+bool isLastOperator(char next) {
+    if(next=='*' || next=='-' || next=='+' || next=='/' || next== ')') {
+        return true;
+    }
+    return false;
+}
+
+string ShuntingYard::evaluateTokens(vector<string>::iterator *it) {
+    string current=(*(*it));
+    int keep=0;
+    if(isOpenOperator(current[current.length()-1]) ) {
+        keep++;
+    } else {
+        if((*((*it)+1))!="\n") {
+            if(isLastOperator((*((*it)+1))[0])) {
+                keep++;
+            }
+        }
+    }
+    while(keep) {
+        keep=0;
+        (*it)++;
+        current+=(*(*it));
+        if(isOpenOperator(current[current.length()-1]) ) {
+            keep++;
+        } else {
+            if((*((*it)+1))!="\n") {
+                if(isLastOperator((*((*it)+1))[0])) {
+                    keep++;
+                }
+            }
+        }
+
+    }
+    //go to nexkt, but dont include it
+    (*it)++;
+    return current;
+}
 
 /**
  * This function gets a string of tokens and put it into a stack and a stack accordong to "Shating "Yard Algorithm"
@@ -32,6 +77,7 @@ int ShuntingYard::precedence(char op) {
  * @return the value
  */
 double ShuntingYard::evaluate() {
+    this->tokens=evaluateTokens(this->it);
     string tokens=this->tokens;
     stack<char> operatorStack;
     stack<string> finalStack;
@@ -123,7 +169,7 @@ void ShuntingYard::addAnArithmetic(stack<char> *operatorStack, stack<string> *fi
 
     if (!operatorStack->empty()) {
         char last = (operatorStack->top());
-        while (precedence(last) > precedence(act)) {
+        while (precedence(last) >= precedence(act)) {
             string opStr;
             opStr.push_back(last);
             finalStack->push(opStr);

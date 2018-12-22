@@ -25,19 +25,12 @@ double PrintCommand::excecute() {
         }
         str+=(**it);
         (*it)++; index++;
-        if((*(*it)=="\n")) {
-            (*it)++; index++;
-        }
         str.erase(0,1);
         str.erase(str.length()-1,1);
-        cout << (str);
+
     } else {
-        e = new ShuntingYard(this->varMap,(*(*it)));
+        e = new ShuntingYard(this->varMap,(it));
         cout << e->evaluate();
-        (*it)++; index++;
-        if((*(*it)=="\n")) {
-            (*it)++; index++;
-        }
     }
     return index;
 

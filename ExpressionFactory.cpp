@@ -9,6 +9,7 @@
 #include "IfCommand.h"
 #include "WhileCommand.h"
 #include "PrintCommand.h"
+#include "ShuntingYard.h"
 
 ExpressionFactory::ExpressionFactory(map<string, double> *varMap, vector<string>::iterator* it) {
     this->varMap=varMap;
@@ -30,6 +31,11 @@ Expression* ExpressionFactory::create(string word) {
     if(word=="print") {
         return new ExpressionCommand(new PrintCommand(varMap,it));
     }
+    if((this->varMap->count(word)>0) && ((*((*it)+1))=="=")) { //todo U
+        return new ExpressionCommand(new CommandAssign(varMap,it));
+    }
 
-    return NULL; //chack todo if it is a null - then it is supposed to ba a line starts with variable
+    return new ShuntingYard(varMap,it);
+
+    //chack todo if it is a null - then it is supposed to ba a line starts with variable
 }
