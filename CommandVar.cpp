@@ -6,10 +6,14 @@
 #include "CommandAssign.h"
 #include "ShuntingYard.h"
 #include "ExpressionFactory.h"
+#include "DictionaryPath.h"
+#include "BoundMap.h"
+#include "BindCommand.h"
 
-CommandVar::CommandVar(  map<string,double >* varMap,vector<string>::iterator* iterator1) {
+CommandVar::CommandVar(  map<string,double >* varMap,vector<string>::iterator* iterator1, map<string,double&>* bindMap) {
     this->it=iterator1;
     this->varMap=varMap;
+    this->bindMap=bindMap;
 }
 
 
@@ -28,17 +32,16 @@ double CommandVar::excecute() {
     //go to the expresion comes after the =
     (*it)++; index++;
 
+    ExpressionFactory expressionFactory(this->varMap,it,bindMap);
 
 
 
-    ExpressionFactory expressionFactory(this->varMap,it);
 
-    Expression* exp=new ShuntingYard(this->varMap,it);
+   // Expression* exp=new ShuntingYard(this->varMap,it,bindMap); not needed
     double value=expressionFactory.create(*(*it))->evaluate();
-    if(this->varMap->count(var) == 0) {
-        this->varMap->insert({var,value});
-    } else {
-        this->varMap->at(var)=value;
+    if(this->varMap->count(var) == 0 && this->bindMap->count(var) ==0) {
+        this->varMap->insert({var,value}); //enter only if the parameter doesnt exist already (if it does,
+        // bind happened) //todo check. supposed to be ok cause we were told there wont be two declerartions.
     }
     return index;
 }

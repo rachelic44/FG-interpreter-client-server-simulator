@@ -16,7 +16,8 @@ using namespace std;
 
 class WhileCommand : public ConditionParser {
 public:
-    WhileCommand(map<string,double >* varMap,vector<string>::iterator* it) : ConditionParser(varMap,it){}
+    WhileCommand(map<string,double >* varMap,vector<string>::iterator* it,map<string,double&>* bindMap)
+    : ConditionParser(varMap,it,bindMap){}
     double excecute();
 };
 

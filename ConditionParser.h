@@ -17,11 +17,12 @@ class ConditionParser : public Command {
 protected:
     vector<Command*> commandVector;
     bool happens;
+    map<string,double&>* bindMap;
     map<string,double >* varMap;
     vector<string>::iterator* it;
 
 public:
-    ConditionParser(map<string,double >* varMap,vector<string>::iterator* it);
+    ConditionParser(map<string,double >* varMap,vector<string>::iterator* it,map<string,double&>* bindMap);
     double excecute();
     vector<Command*> getCommand() {
         return this->commandVector;

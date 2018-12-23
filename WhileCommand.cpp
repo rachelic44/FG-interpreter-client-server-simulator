@@ -10,25 +10,26 @@
 double WhileCommand::excecute() {
     int index=0; int pos=0;
     vector<string>::iterator last=(*it);
-    ExpressionFactory expressionFactory(this->varMap,it);
+    vector<string>::iterator p;
+    ExpressionFactory expressionFactory(this->varMap,it, bindMap);
     while(this->calculateHappens(&index)) {
         index=0;
         //last=(*it);
         while( (**it)!="}") {
-
+            string w=(**it);
             index += expressionFactory.create(**it)->evaluate();
         }
+        p=(*it);
         (*it)=last;
         last=(*it);
 
     }
-    while((**it)!="}" ) {
-        (*it)++; index++;
-    }
+    //the condition does not happen, so t=now the iterator is in the same place where it stopped
+    (*it)=p;
     //skip the }
     (*it)++; index++;
 
-    if((**it)=="\n") {
+    if((**it)=="\n") { //todo not needed
         (*it)++;
         index++;
     }

@@ -13,48 +13,114 @@
 #include <map>
 #include "ShuntingYard.h"
 #include "LexerParser.h"
-
-
+#include "pml.h"
+#include "DictionaryPath.h"
+#include "BoundMap.h"
 #include <pthread.h>
 #include <iostream>
 
+
+DictionaryPath *DictionaryPath::map_instance = NULL;
+BoundMap * BoundMap::map_instance=NULL;
+
+//BIndingTable *BIndingTable::map_instance = NULL;
 using namespace std;
 
 int main() {
+
     map<string,int> m;
 map<string,int&> m2;
-m.insert({"a",5});
-m2.insert({"a",m.at("a")});
-m.at("a")=3;
-int & p=m.at("a");
-m2.insert({"y",p});
+int j=5;
+m.insert({"path",5});
+m2.insert({"b",m.at("path")});
+m2.at("b")=0;
+m.at("path")=6;
 int yy;
+pml* ppp=new pml();
+ppp->getmap();
+    DictionaryPath dictionaryPath;
+    map<string,double >* d=dictionaryPath.instance()->getMap();
+    map<string,double&> mapTo;
+    mapTo.insert({"a",d->at("b")});
+    mapTo.insert({"g",mapTo.at("a")});
+    mapTo.at("a")=3;
+    map<string,double> u=*d;
 
-
- map<string, double> map;
-
- string p="-4+5";
+ string pp="-4+5";
 
 
  //ShuntingYard shan(&map, nullptr);
 
 //int x=shan.evaluate();
-//cout<<p<<"="<<shan.evaluate();
+//cout<<pp<<"="<<shan.evaluate();
 
 LexerParser lexerParser;
-//string string1="if 3!=5 { if 3 != 5 \n{ var t=7 } var c=2*(3 +5) } c=6"; //todo works
+//string string1="if 3!=5 { if 3 != 5 \n{ var t=7 } var c=2*(3 +5) } t=6"; //todo works
 //string string1="var x=5\n print x*-6-6\n"; //todo works
-// string string1="if 3!=5 \n{ var c=2*(\n3 +5) print c}";
-//string string1="var x= 5+3 + (4 * 3 )+( 2+5)\nx=3"; todo works
-string string1= "var x=5 +1 while x!=8 {x = x +1 print x  }";
+ //string string1="if 3!=5 \n{ var c=2*(\n3 +5) print c}";
+//string string1="var x= 5+3 + (4 * 3 )+( 2+5)\nx=3"; //todo works
+//string string1= "var x=5 +1 while x!=8 {x = x +1 print x  }"; //todo works
+//string string1= "var x=5  while x!=8 { x=x+1 while  x!=8 { x=x+1 }  } x=5"; //todo works
+string string1="openDataServer 5 6 var x=5 var y = bind x var z=bind x z=9"; //todo works
+
+
+
+//string string1="var x= bind \"/engines/engine/rpm\" x=5"; //todo works
+
 
 
 vector<string>vec =lexerParser.splitter(string1);
 lexerParser.parser(vec);
-cout<<lexerParser.getVarMap().at("x");
+cout<<lexerParser.getBindMap()->at("y");
+for(auto sm: *BoundMap::instance()->getMap()) {
+    cout<<endl<<"firsr "+sm.first+"second "+sm.second;
+}
+lexerParser.getVarMap()->at("x")=3;
+    cout<<endl<<lexerParser.getBindMap()->at("y");
 int y=6;
+
 string yu="7";
 
 
 return 0;
 }
+
+
+/*#include <iostream>
+#include <cstdlib>
+#include <pthread.h>
+#include "DictionaryPath.h"
+#include "BoundMap.h"
+
+using namespace std;
+
+#define NUM_THREADS 5
+
+
+DictionaryPath *DictionaryPath::map_instance = NULL;
+BoundMap * BoundMap::map_instance=NULL;
+
+void *PrintHello(void *threadid) {
+    long tid;
+    tid = (long)threadid;
+    cout << "Hello World! Thread ID, " << tid << endl;
+    pthread_exit(NULL);
+}
+
+int main () {
+    pthread_t threads[NUM_THREADS];
+    int rc;
+    int i;
+
+    for( i = 0; i < NUM_THREADS; i++ ) {
+        cout << "main() : creating thread, " << i << endl;
+        rc = pthread_create(&threads[i], NULL, PrintHello, (void *)i);
+
+        if (rc) {
+            cout << "Error:unable to create thread," << rc << endl;
+            exit(-1);
+        }
+    }
+    pthread_join()
+    pthread_exit(NULL);
+}*/

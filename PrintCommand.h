@@ -12,10 +12,11 @@ using namespace std;
 
 class PrintCommand : public Command  {
 private:
+    map<string,double&>* bindMap;
     map<string,double >* varMap;
     vector<string>::iterator* it;
 public:
-    PrintCommand(map<string,double >* varMap,vector<string>::iterator* it);
+    PrintCommand(map<string,double >* varMap,vector<string>::iterator* it, map<string,double&>*);
     double excecute() override;
 };
 

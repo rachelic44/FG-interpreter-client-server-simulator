@@ -16,10 +16,11 @@ using namespace std;
 class ExpressionFactory {
 
 private:
+    map<string,double&>* bindMap;
     map<string,double >* varMap;
     vector<string>::iterator* it;
 public:
-    ExpressionFactory(map<string,double >* varMap, vector<string>::iterator* it);
+    ExpressionFactory(map<string,double >* varMap, vector<string>::iterator* it,map<string,double&>* bindMap);
     Expression* create(string word);
 };
 

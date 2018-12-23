@@ -5,7 +5,8 @@
 #include "ConditionParser.h"
 #include "ShuntingYard.h"
 
-ConditionParser::ConditionParser(map<string,double >* varMap,vector<string>::iterator* it) {
+ConditionParser::ConditionParser(map<string,double >* varMap,vector<string>::iterator* it,map<string,double&>* bindMap) {
+   this->bindMap=bindMap;
     this->it=it;
     this->varMap=varMap;
 }
@@ -59,8 +60,8 @@ bool ConditionParser::calculateHappens(int * index) {
             meanWhile2.push_back(second);
             meanWhile2.push_back("\n");
             itWhile2=meanWhile2.begin();
-            expression1 = new ShuntingYard(this->varMap, &itWhile);
-            expression2 = new ShuntingYard(this->varMap, &itWhile2);
+            expression1 = new ShuntingYard(this->varMap, &itWhile,bindMap);
+            expression2 = new ShuntingYard(this->varMap, &itWhile2,bindMap);
             sign++;
             break;
         }

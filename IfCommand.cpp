@@ -8,7 +8,7 @@
 
 double IfCommand::excecute() {
     int index=0;
-    ExpressionFactory expressionFactory(this->varMap,it);
+    ExpressionFactory expressionFactory(this->varMap,it,bindMap);
     if(this->calculateHappens(&index)) {
         while( (**it)!="}") {
             string woird=(*(*it));

@@ -71,14 +71,14 @@ vector<string> LexerParser::splitter(string str) {
 void LexerParser::parser(vector<string> stringVector) {
 
     vector<string>::iterator it = this->lexeredWord.begin();
-    map<string, Command *> commandMap = {
+   /* map<string, Command *> commandMap = {
             {"=",   new CommandAssign(&varMap, &it)},
             {"var", new CommandVar(&varMap, &it)}
-    };
+    };*/
 
 
 
-    ExpressionFactory expressionFactory(&this->varMap, &it);
+    ExpressionFactory expressionFactory(&this->varMap, &it, &this->bindMap);
 
     /*map<string,Expression*> mapp;
     mapp.insert({VAR,expressionFactory.create("+")});*/ //!!!
@@ -87,15 +87,16 @@ void LexerParser::parser(vector<string> stringVector) {
     while (it != this->lexeredWord.end() && (*it) != "\n") {
 
         //if the command map has no such command
-        if (expressionFactory.create(*it) == NULL) {
+      /*  if (expressionFactory.create(*it) == NULL) {
             if (this->varMap.count(*it)) { //&& (lexeredWord[index+1]=="=")) {todo
-                commandMap.at("=")->excecute();
+              //  commandMap.at("=")->excecute();
             } else {
                 __throw_logic_error(""); //todo write a message
             }
         } else {
             expressionFactory.create(*it)->evaluate();
-        }
+        }*/
+        expressionFactory.create(*it)->evaluate();
     }
 
 }

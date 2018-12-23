@@ -12,10 +12,11 @@
 class CommandVar: public Command {
 
 private:
+    map<string,double&>* bindMap;
     map<string,double >* varMap;
     vector<string>::iterator* it;
 public:
-    CommandVar( map<string,double >*,vector<string>::iterator* it);
+    CommandVar( map<string,double >*,vector<string>::iterator* it, map<string,double&>*);
     virtual double excecute ();
 };
 

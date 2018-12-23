@@ -6,7 +6,8 @@
 
 
 using namespace std;
-PrintCommand::PrintCommand(map<string, double> *varMap, vector<string>::iterator *it) {
+PrintCommand::PrintCommand(map<string, double> *varMap, vector<string>::iterator *it,map<string,double&>* bindMap) {
+    this->bindMap=bindMap;
     this->it = it;
     this->varMap = varMap;
 }
@@ -29,7 +30,7 @@ double PrintCommand::excecute() {
         str.erase(str.length()-1,1);
 
     } else {
-        e = new ShuntingYard(this->varMap,(it));
+        e = new ShuntingYard(this->varMap,(it),bindMap);
         cout << e->evaluate();
     }
     return index;

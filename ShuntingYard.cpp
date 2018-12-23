@@ -5,9 +5,17 @@
 #include "ShuntingYard.h"
 
 
-ShuntingYard::ShuntingYard(map<string, double>* map1,vector<string>::iterator* it) {
+ShuntingYard::ShuntingYard(map<string, double>* map1,vector<string>::iterator* it, map<string,double&>* bindMap) {
     this->it=it;
+    this->bindMap=bindMap;
     this->valMap=map1;
+    for(auto& sm: *bindMap) {
+        this->valMapAll.insert(sm);
+    }
+    for(auto& sm: *map1) {
+        this->valMapAll.insert(sm);
+    }
+
 }
 
 /**
@@ -135,10 +143,10 @@ double ShuntingYard::evaluate() {
                 variable+=tokens[i];
                 i++;
             }
-            if(this->valMap->count(variable)==0) {
+            if(this->valMapAll.count(variable)==0) {
                 throw logic_error("No such variable"+variable);
             } else {
-                finalStack.push(to_string(this->valMap->at(variable)));
+                finalStack.push(to_string(this->valMapAll.at(variable)));
             }
 
         }

@@ -15,9 +15,10 @@ class CommandAssign: public Command {
 private:
     map<string,double >* varMap;
     vector<string>::iterator* it;
+    map<string,double&>* bindMap;
 
 public:
-    CommandAssign(map<string,double >* varMap,vector<string>::iterator*);
+    CommandAssign(map<string,double >* varMap,vector<string>::iterator*, map<string,double&>*);
     virtual double excecute ();
 };
 
