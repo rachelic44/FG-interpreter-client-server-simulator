@@ -25,6 +25,12 @@ public:
     ExpressionFactory(map<string,double >* varMap, vector<string>::iterator* it,map<string,double&>* bindMap
     ,pthread_cond_t* cond, pthread_mutex_t* mutex);
     Expression* create(string word);
+    pthread_mutex_t* getMutix() {
+        return this->mutex;
+    }
+    pthread_cond_t* getCond() {
+        return this->cond;
+    }
 };
 
 

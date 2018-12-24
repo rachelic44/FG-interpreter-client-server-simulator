@@ -36,6 +36,8 @@ struct serverParams {
     map<string,double>* maap;
     int portPa;
     int hertzPa;
+    pthread_mutex_t * mutex;
+    pthread_cond_t* cond;
 };
 
 class OpenDataServerCommand : public Command {

@@ -61,12 +61,13 @@ void initializeMap(map<string, double> *dictionaryMap, char* buffer) {
 }
 
 
-void readFromServer( map<string,double>* dictionaryMap,int portNU, int hz) {
+void readFromServer( map<string,double>* dictionaryMap,int portNU, int hz,pthread_mutex_t* mutex1,
+        pthread_cond_t* cond) {
     //pthread_mutex_lock(&mutex);
 
     int sockfd, newsockfd, portno, clilen;
     char buffer[2014];
-    struct sockaddr_in serv_addr, cli_addr;
+    struct sockaddr_in serv_addr{}, cli_addr{};
     int  n;
     /* First call to socket() function */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -85,6 +86,9 @@ void readFromServer( map<string,double>* dictionaryMap,int portNU, int hz) {
         perror("ERROR on binding");
         exit(1);
     }
+
+
+
     listen(sockfd,5);
     clilen = sizeof(cli_addr);
     newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
@@ -94,10 +98,16 @@ void readFromServer( map<string,double>* dictionaryMap,int portNU, int hz) {
     }
 
     while(true) {
-        pthread_mutex_lock(&mutex);
+
+
         bzero(buffer,2014);
         n = read( newsockfd,buffer,2013 );
+        pthread_mutex_lock(mutex1);
         initializeMap(dictionaryMap,buffer);
+        cout<<"success";
+        pthread_mutex_unlock(mutex1);
+
+
         if (n < 0) {
             perror("ERROR reading from socket");
             exit(1);
@@ -106,8 +116,7 @@ void readFromServer( map<string,double>* dictionaryMap,int portNU, int hz) {
             perror("ERROR writing to socket");
             exit(1);
         }
-        pthread_cond_signal(&cond);
-        pthread_mutex_unlock(&mutex);
+        pthread_cond_signal(cond);
     }
 
    // pthread_cond_signal(&cond);
@@ -121,10 +130,9 @@ void* threadOpen(void * params) {
     int port=parameters->portPa;
     int hz=parameters->hertzPa;
 
-    pthread_mutex_lock(&mutex);
-    readFromServer(map,port,hz);
-    pthread_mutex_unlock(&mutex);
-    //pthread_mutex_unlock(&mutex);
+
+    readFromServer(map,port,hz,parameters->mutex,parameters->cond);
+
 }
 
 
@@ -132,17 +140,20 @@ double OpenDataServerCommand::excecute() {
 
     //skip the word "openDate"
     (*it)++;
-    int port1=expressionFactory->create((**it))->evaluate(); //todo ! the , thing (in shuntingYard)
-    int hertz=expressionFactory->create((**it))->evaluate(); //todo ! the , thing
+    int port1=expressionFactory->create((**it))->evaluate();
+    int hertz=expressionFactory->create((**it))->evaluate();
     struct serverParams* params = new serverParams();
     params->maap=(DictionaryPath::instance()->getMap());
     params->portPa=port1;
     params->hertzPa=hertz;
+    params->mutex=this->expressionFactory->getMutix();
+    params->cond=this->expressionFactory->getCond();
+
     pthread_t pthread;
     
-    pthread_mutex_lock(&mutex);
+    //pthread_mutex_lock(&mutex);
     if(pthread_create(&pthread, nullptr,threadOpen,(void*)(params))!=0) {
         perror("A problem accured");
     }
-    pthread_mutex_unlock(&mutex);
+   // pthread_mutex_unlock(&mutex);
 }

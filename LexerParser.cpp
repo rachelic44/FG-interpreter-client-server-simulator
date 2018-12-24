@@ -81,7 +81,10 @@ void LexerParser::parser(vector<string> stringVector) {
 
 
    pthread_mutex_t mutex;
+   pthread_mutex_init(&mutex, nullptr);
+
    pthread_cond_t cond;
+   pthread_cond_init(&cond, nullptr);
    ExpressionFactory expressionFactory(&this->varMap, &it, &this->bindMap,&cond,&mutex);
 
     /*map<string,Expression*> mapp;
