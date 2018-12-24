@@ -5,6 +5,7 @@
 #include <vector>
 #include <queue>
 #include "Expression.h"
+#include <unistd.h>
 #include "ExpressionCommand.h"
 
 #include "LexerParser.h"
@@ -80,12 +81,12 @@ void LexerParser::parser(vector<string> stringVector) {
 
 
 
-   pthread_mutex_t mutex;
-   pthread_mutex_init(&mutex, nullptr);
+   pthread_mutex_t* mutex = new pthread_mutex_t;
+   pthread_mutex_init(mutex, nullptr);
 
    pthread_cond_t cond;
    pthread_cond_init(&cond, nullptr);
-   ExpressionFactory expressionFactory(&this->varMap, &it, &this->bindMap,&cond,&mutex);
+   ExpressionFactory expressionFactory(&this->varMap, &it, &this->bindMap,&cond,mutex);
 
     /*map<string,Expression*> mapp;
     mapp.insert({VAR,expressionFactory.create("+")});*/ //!!!
@@ -108,5 +109,4 @@ void LexerParser::parser(vector<string> stringVector) {
         expressionFactory.create(*it)->evaluate();
 
     }
-
 }
