@@ -9,7 +9,7 @@
 #include <vector>
 #include <map>
 using namespace std;
-
+//bool toChange=false;
 class LexerParser {
 
 private:

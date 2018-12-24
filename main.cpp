@@ -23,8 +23,12 @@
 DictionaryPath *DictionaryPath::map_instance = NULL;
 BoundMap * BoundMap::map_instance=NULL;
 
+
 //BIndingTable *BIndingTable::map_instance = NULL;
+
 using namespace std;
+
+
 
 int main() {
 
@@ -60,10 +64,10 @@ LexerParser lexerParser;
  //string string1="if 3!=5 \n{ var c=2*(\n3 +5) print c}";
 //string string1="var x= 5+3 + (4 * 3 )+( 2+5)\nx=3"; //todo works
 //string string1= "var x=5 +1 while x!=8 {x = x +1 print x  }"; //todo works
-//string string1= "var x=5  while x!=8 { x=x+1 while  x!=8 { x=x+1 }  } x=5"; //todo works
-string string1="openDataServer 5 6 var x=5 var y = bind x var z=bind x z=9"; //todo works
+string string1= "var x=5  while x!=8 { x=x+1 while  x!=8 { x=x+1 }  } x=5"; //todo works
+//string string1="var t= bind /instrumentation/airspeed-indicator/indicated-speed-kt var x=5 var y = bind x var z=bind x z=9"; //todo works
 
-
+//string string1="var x=5";
 
 //string string1="var x= bind \"/engines/engine/rpm\" x=5"; //todo works
 
@@ -71,56 +75,22 @@ string string1="openDataServer 5 6 var x=5 var y = bind x var z=bind x z=9"; //t
 
 vector<string>vec =lexerParser.splitter(string1);
 lexerParser.parser(vec);
-cout<<lexerParser.getBindMap()->at("y");
-for(auto sm: *BoundMap::instance()->getMap()) {
+//cout<<lexerParser.getBindMap()->at("y");
+/*for(auto sm: *BoundMap::instance()->getMap()) {
     cout<<endl<<"firsr "+sm.first+"second "+sm.second;
-}
-lexerParser.getVarMap()->at("x")=3;
-    cout<<endl<<lexerParser.getBindMap()->at("y");
-int y=6;
-
-string yu="7";
+}*/
+//lexerParser.getVarMap()->at("x")=3;
+   // cout<<endl<<lexerParser.getBindMap()->at("y");
+   /* d->at("/instrumentation/airspeed-indicator/indicated-speed-kt")=7;
+    cout<<endl<<d->at("/pp");
+    cout<<endl<<lexerParser.getBindMap()->at("t");
+    lexerParser.getBindMap()->at("t")=8;
+    cout<<d->at("/instrumentation/airspeed-indicator/indicated-speed-kt");
+    cout<<endl<<d->at("/pp");*/
+   cout<<lexerParser.getVarMap()->at("x");
+int y=9;
 
 
 return 0;
+//pthread_exit(nullptr);
 }
-
-
-/*#include <iostream>
-#include <cstdlib>
-#include <pthread.h>
-#include "DictionaryPath.h"
-#include "BoundMap.h"
-
-using namespace std;
-
-#define NUM_THREADS 5
-
-
-DictionaryPath *DictionaryPath::map_instance = NULL;
-BoundMap * BoundMap::map_instance=NULL;
-
-void *PrintHello(void *threadid) {
-    long tid;
-    tid = (long)threadid;
-    cout << "Hello World! Thread ID, " << tid << endl;
-    pthread_exit(NULL);
-}
-
-int main () {
-    pthread_t threads[NUM_THREADS];
-    int rc;
-    int i;
-
-    for( i = 0; i < NUM_THREADS; i++ ) {
-        cout << "main() : creating thread, " << i << endl;
-        rc = pthread_create(&threads[i], NULL, PrintHello, (void *)i);
-
-        if (rc) {
-            cout << "Error:unable to create thread," << rc << endl;
-            exit(-1);
-        }
-    }
-    pthread_join()
-    pthread_exit(NULL);
-}*/

@@ -10,7 +10,9 @@
 #include "BoundMap.h"
 #include "BindCommand.h"
 
-CommandVar::CommandVar(  map<string,double >* varMap,vector<string>::iterator* iterator1, map<string,double&>* bindMap) {
+CommandVar::CommandVar(  map<string,double >* varMap,vector<string>::iterator* iterator1, map<string,double&>* bindMap,
+        ExpressionFactory* expressionFactory) {
+    this->expressionFactory=expressionFactory;
     this->it=iterator1;
     this->varMap=varMap;
     this->bindMap=bindMap;
@@ -32,13 +34,11 @@ double CommandVar::excecute() {
     //go to the expresion comes after the =
     (*it)++; index++;
 
-    ExpressionFactory expressionFactory(this->varMap,it,bindMap);
-
 
 
 
    // Expression* exp=new ShuntingYard(this->varMap,it,bindMap); not needed
-    double value=expressionFactory.create(*(*it))->evaluate();
+    double value=this->expressionFactory->create(*(*it))->evaluate();
     if(this->varMap->count(var) == 0 && this->bindMap->count(var) ==0) {
         this->varMap->insert({var,value}); //enter only if the parameter doesnt exist already (if it does,
         // bind happened) //todo check. supposed to be ok cause we were told there wont be two declerartions.

@@ -8,14 +8,13 @@
 
 double IfCommand::excecute() {
     int index=0;
-    ExpressionFactory expressionFactory(this->varMap,it,bindMap);
     if(this->calculateHappens(&index)) {
         while( (**it)!="}") {
             string woird=(*(*it));
-            if (expressionFactory.create(**it) == NULL) {
-                index+=expressionFactory.create("=")->evaluate();
+            if (this->expressionFactory->create(**it) == NULL) {
+                index+=this->expressionFactory->create("=")->evaluate();
             } else {
-                index += expressionFactory.create(**it)->evaluate();
+                index += this->expressionFactory->create(**it)->evaluate();
             }
         }
     } else {

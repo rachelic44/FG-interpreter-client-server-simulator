@@ -8,7 +8,9 @@
 #include "DictionaryPath.h"
 #include "BoundMap.h"
 
-CommandAssign::CommandAssign(map<string,double >* varMap,vector<string>::iterator* it, map<string,double&>* bindMap) {
+CommandAssign::CommandAssign(map<string,double >* varMap,vector<string>::iterator* it, map<string,double&>* bindMap,
+        ExpressionFactory* expressionFactory) {
+    this->expressionFactory=expressionFactory;
     this->bindMap=bindMap;
     this->it=it;
     this->varMap=varMap;
@@ -30,8 +32,8 @@ double CommandAssign::excecute() {
     map<string,string>* bounded=BoundMap::instance()->getMap();
 
 
-    ExpressionFactory expressionFactory(this->varMap,it,bindMap);
-    double value=expressionFactory.create(*(*it))->evaluate();
+
+    double value=this->expressionFactory->create(*(*it))->evaluate();
 
     if(this->bindMap->count(var)>0) {
         if(dictionary->count(bounded->at(var))>0) { //call the client t write it

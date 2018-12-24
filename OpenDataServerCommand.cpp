@@ -1,39 +1,40 @@
-//
-// Created by user on 23/12/18.
-//
 
+//
 #include <iostream>
 #include "OpenDataServerCommand.h"
 #include "DictionaryPath.h"
 #include <map>
 #include <algorithm>
 
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
 OpenDataServerCommand::OpenDataServerCommand(map<string, double> *varMp, vector<string>::iterator *itt,
-                                             map<string, double &> *bindMapp) {
+                                             map<string, double &> *bindMapp,  ExpressionFactory* expressionFactory) {
+    this->expressionFactory=expressionFactory;
     this->bindMap=bindMapp;
     this->it=itt;
     this->varMap=varMp;
-
 }
-
-
-
-vector<string> makeItSplitted(string s) {
-    vector<string> splitted;
-    for(int i=0;i<22;i++) {
-        splitted[i]=s.substr(0,s.find(','));
-        s=s.substr(0,s.find(','));
+vector<string> makeItSplitted(char * buffer) {
+    vector<string> vec;
+    string temp;
+    while (*buffer !='\n') {
+        while (*buffer != ',' && *buffer != '\n') {
+            temp += *buffer;
+            ++buffer;
+        }
+        vec.emplace_back(temp);
+        temp = "";
+        if(*buffer != '\n')
+            ++buffer;
     }
-    splitted[22]=s.substr(0,s.find('\n'));
-    return splitted;
+
+    return vec;
 }
-
-void initializeMap(map<string, double> *dictionaryMap, string s) {
-
-    vector<string> splitted = makeItSplitted(s);
-
+void initializeMap(map<string, double> *dictionaryMap, char* buffer) {
+    vector<string> splitted = makeItSplitted(buffer);
     dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt")=stod(splitted[0]);
     dictionaryMap->at("/instrumentation/altimeter/indicated-altitude-ft")=stod(splitted[1]);
     dictionaryMap->at("/instrumentation/altimeter/pressure-alt-ft")=stod(splitted[2]);
@@ -60,69 +61,58 @@ void initializeMap(map<string, double> *dictionaryMap, string s) {
 }
 
 
-
 void readFromServer( map<string,double>* dictionaryMap,int portNU, int hz) {
-    pthread_mutex_lock(&mutex);
+    //pthread_mutex_lock(&mutex);
+
     int sockfd, newsockfd, portno, clilen;
-    char buffer[1024];
+    char buffer[2014];
     struct sockaddr_in serv_addr, cli_addr;
     int  n;
-
     /* First call to socket() function */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
-
     if (sockfd < 0) {
         perror("ERROR opening socket");
         exit(1);
     }
-
-
     /* Initialize socket structure */
     bzero((char *) &serv_addr, sizeof(serv_addr));
     portno = portNU;
-
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(portno);
-
     /* Now bind the host address using bind() call.*/
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         perror("ERROR on binding");
         exit(1);
     }
-
-    /* Now start listening for the clients, here process will
-       * go in sleep mode and will wait for the incoming connection
-    */
-
     listen(sockfd,5);
     clilen = sizeof(cli_addr);
-
-    /* Accept actual connection from the client */
     newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
-
     if (newsockfd < 0) {
         perror("ERROR on accept");
         exit(1);
     }
 
-    /* If connection is established then start communicating */
-    bzero(buffer,1024);
-    n = read( newsockfd,buffer,1023 );
-    initializeMap(dictionaryMap,buffer);
-
-    if (n < 0) {
-        perror("ERROR reading from socket");
-        exit(1);
+    while(true) {
+        pthread_mutex_lock(&mutex);
+        bzero(buffer,2014);
+        n = read( newsockfd,buffer,2013 );
+        initializeMap(dictionaryMap,buffer);
+        if (n < 0) {
+            perror("ERROR reading from socket");
+            exit(1);
+        }
+        if (n < 0) {
+            perror("ERROR writing to socket");
+            exit(1);
+        }
+        pthread_cond_signal(&cond);
+        pthread_mutex_unlock(&mutex);
     }
 
-
-    if (n < 0) {
-        perror("ERROR writing to socket");
-        exit(1);
-    }
+   // pthread_cond_signal(&cond);
+    //pthread_mutex_unlock(&mutex);
 }
-
 
 
 void* threadOpen(void * params) {
@@ -131,31 +121,28 @@ void* threadOpen(void * params) {
     int port=parameters->portPa;
     int hz=parameters->hertzPa;
 
-
     pthread_mutex_lock(&mutex);
     readFromServer(map,port,hz);
     pthread_mutex_unlock(&mutex);
+    //pthread_mutex_unlock(&mutex);
 }
 
 
 double OpenDataServerCommand::excecute() {
-    ExpressionFactory expressionFactory(this->varMap,this->it,this->bindMap);
+
     //skip the word "openDate"
     (*it)++;
-    int port1=expressionFactory.create((**it))->evaluate(); //todo ! the , thing (in shuntingYard)
-    int hertz=expressionFactory.create((**it))->evaluate(); //todo ! the , thing
-
-
+    int port1=expressionFactory->create((**it))->evaluate(); //todo ! the , thing (in shuntingYard)
+    int hertz=expressionFactory->create((**it))->evaluate(); //todo ! the , thing
     struct serverParams* params = new serverParams();
     params->maap=(DictionaryPath::instance()->getMap());
     params->portPa=port1;
     params->hertzPa=hertz;
-
     pthread_t pthread;
+    
     pthread_mutex_lock(&mutex);
-    pthread_create(&pthread, nullptr,threadOpen,(void*)(params));
+    if(pthread_create(&pthread, nullptr,threadOpen,(void*)(params))!=0) {
+        perror("A problem accured");
+    }
     pthread_mutex_unlock(&mutex);
-   // pthread_exit(NULL);
 }
-
-

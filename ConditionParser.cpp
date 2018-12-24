@@ -5,7 +5,9 @@
 #include "ConditionParser.h"
 #include "ShuntingYard.h"
 
-ConditionParser::ConditionParser(map<string,double >* varMap,vector<string>::iterator* it,map<string,double&>* bindMap) {
+ConditionParser::ConditionParser(map<string,double >* varMap,vector<string>::iterator* it,map<string,double&>* bindMap
+        ,ExpressionFactory* expressionFactory) {
+    this->expressionFactory=expressionFactory;
    this->bindMap=bindMap;
     this->it=it;
     this->varMap=varMap;

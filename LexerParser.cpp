@@ -16,6 +16,8 @@
 #define VAR "v"
 
 
+
+
 vector<string> LexerParser::splitter(string str) {
 
     // Vector of string to save tokens
@@ -78,25 +80,30 @@ void LexerParser::parser(vector<string> stringVector) {
 
 
 
-    ExpressionFactory expressionFactory(&this->varMap, &it, &this->bindMap);
+   pthread_mutex_t mutex;
+   pthread_cond_t cond;
+   ExpressionFactory expressionFactory(&this->varMap, &it, &this->bindMap,&cond,&mutex);
 
     /*map<string,Expression*> mapp;
     mapp.insert({VAR,expressionFactory.create("+")});*/ //!!!
 
     //go over the list and for each command - execute it.
+    int j=0, i=0;
     while (it != this->lexeredWord.end() && (*it) != "\n") {
 
+        j++;
         //if the command map has no such command
-      /*  if (expressionFactory.create(*it) == NULL) {
-            if (this->varMap.count(*it)) { //&& (lexeredWord[index+1]=="=")) {todo
-              //  commandMap.at("=")->excecute();
-            } else {
-                __throw_logic_error(""); //todo write a message
-            }
-        } else {
-            expressionFactory.create(*it)->evaluate();
-        }*/
+        /*  if (expressionFactory.create(*it) == NULL) {
+              if (this->varMap.count(*it)) { //&& (lexeredWord[index+1]=="=")) {todo
+                //  commandMap.at("=")->excecute();
+              } else {
+                  __throw_logic_error(""); //todo write a message
+              }
+          } else {
+              expressionFactory.create(*it)->evaluate();
+          }*/
         expressionFactory.create(*it)->evaluate();
+
     }
 
 }

@@ -16,27 +16,29 @@
 
 
 ExpressionFactory::ExpressionFactory(map<string, double> *varMap, vector<string>::iterator *it,
-                                     map<string, double &>* bindMap) {
+                                     map<string, double &>* bindMap,pthread_cond_t* cond, pthread_mutex_t* mutex) {
     this->bindMap = bindMap;
     this->varMap = varMap;
     this->it = it;
+    this->mutex=mutex;
+    this->cond=cond;
 }
 
 Expression *ExpressionFactory::create(string word) {
     if (word == "var") {
-        return new ExpressionCommand(new CommandVar(varMap, it, bindMap));
+        return new ExpressionCommand(new CommandVar(varMap, it, bindMap,this));
     }
     if (word == "if") {
-        return new ExpressionCommand(new IfCommand(varMap, it, bindMap));
+        return new ExpressionCommand(new IfCommand(varMap, it, bindMap,this));
     }
     if (word == "while") {
-        return new ExpressionCommand(new WhileCommand(varMap, it, bindMap));
+        return new ExpressionCommand(new WhileCommand(varMap, it, bindMap,this));
     }
     if (word == "print") {
         return new ExpressionCommand(new PrintCommand(varMap, it, bindMap));
     }
     if (((this->varMap->count(word) > 0) || this->bindMap->count(word) > 0) && ((*((*it) + 1)) == "=")) { //todo U
-        return new ExpressionCommand(new CommandAssign(varMap, it, bindMap));
+        return new ExpressionCommand(new CommandAssign(varMap, it, bindMap,this));
     }
     if(word=="bind") {
         return new ExpressionCommand(new BindCommand(varMap, it, bindMap));
@@ -45,7 +47,7 @@ Expression *ExpressionFactory::create(string word) {
         return new ExpressionCommand(new CommandenterC(it));
     }
     if(word=="openDataServer") {
-        return new ExpressionCommand(new OpenDataServerCommand(varMap, it, bindMap));
+        return new ExpressionCommand(new OpenDataServerCommand(varMap, it, bindMap,this));
     }
     return new ShuntingYard(varMap, it, bindMap);
 

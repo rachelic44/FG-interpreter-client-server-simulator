@@ -32,8 +32,13 @@ double BindCommand::excecute() {
         this->bindMap->insert({var,dictionary->at(varToBePathTo)});
         bounded->insert({var,varToBePathTo});
 
-    } else { //if its not there also, throw
+    } else if(this->varMap->count(varToBePathTo)>0){ //if its not there also, throw
         this->bindMap->insert({var,this->varMap->at(varToBePathTo)});
+        bounded->insert({var,varToBePathTo});
+        //else -it is a path that is not written in the xml
+    } else {
+        dictionary->insert({varToBePathTo,0});
+        this->bindMap->insert({var,dictionary->at(varToBePathTo)});
         bounded->insert({var,varToBePathTo});
     }
     (*it)++;

@@ -10,7 +10,7 @@
 #include <vector>
 #include <stdio.h>
 #include <map>
-
+#include "ExpressionFactory.h"
 using namespace std;
 
 class ConditionParser : public Command {
@@ -20,9 +20,11 @@ protected:
     map<string,double&>* bindMap;
     map<string,double >* varMap;
     vector<string>::iterator* it;
+    ExpressionFactory* expressionFactory;
 
 public:
-    ConditionParser(map<string,double >* varMap,vector<string>::iterator* it,map<string,double&>* bindMap);
+    ConditionParser(map<string,double >* varMap,vector<string>::iterator* it,map<string,double&>* bindMap
+    ,ExpressionFactory* expressionFactory);
     double excecute();
     vector<Command*> getCommand() {
         return this->commandVector;

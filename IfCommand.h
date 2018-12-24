@@ -12,8 +12,9 @@
 
 class IfCommand : public ConditionParser {
 public:
-    IfCommand(map<string,double >* varMap,vector<string>::iterator* it,map<string,double&>* bindMap)
-        : ConditionParser(varMap,it,bindMap){}
+    IfCommand(map<string,double >* varMap,vector<string>::iterator* it,map<string,double&>* bindMap
+            ,ExpressionFactory* expressionFactory)
+        : ConditionParser(varMap,it,bindMap,expressionFactory){}
     double excecute();
 };
 

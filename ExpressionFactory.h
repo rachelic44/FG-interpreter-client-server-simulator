@@ -19,8 +19,11 @@ private:
     map<string,double&>* bindMap;
     map<string,double >* varMap;
     vector<string>::iterator* it;
+    pthread_cond_t* cond;
+    pthread_mutex_t* mutex;
 public:
-    ExpressionFactory(map<string,double >* varMap, vector<string>::iterator* it,map<string,double&>* bindMap);
+    ExpressionFactory(map<string,double >* varMap, vector<string>::iterator* it,map<string,double&>* bindMap
+    ,pthread_cond_t* cond, pthread_mutex_t* mutex);
     Expression* create(string word);
 };
 

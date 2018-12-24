@@ -11,13 +11,12 @@ double WhileCommand::excecute() {
     int index=0; int pos=0;
     vector<string>::iterator last=(*it);
     vector<string>::iterator p;
-    ExpressionFactory expressionFactory(this->varMap,it, bindMap);
     while(this->calculateHappens(&index)) {
         index=0;
         //last=(*it);
         while( (**it)!="}") {
             string w=(**it);
-            index += expressionFactory.create(**it)->evaluate();
+            index += this->expressionFactory->create(**it)->evaluate();
         }
         p=(*it);
         (*it)=last;
