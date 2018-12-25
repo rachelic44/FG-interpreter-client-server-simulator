@@ -13,7 +13,8 @@
 #include "BindCommand.h"
 #include "CommandenterC.h"
 #include "OpenDataServerCommand.h"
-
+#include "ConnectCommand.h"
+#include "SleepCommand.h"
 
 ExpressionFactory::ExpressionFactory(map<string, double> *varMap, vector<string>::iterator *it,
                                      map<string, double &>* bindMap,pthread_cond_t* cond, pthread_mutex_t* mutex) {
@@ -48,6 +49,12 @@ Expression *ExpressionFactory::create(string word) {
     }
     if(word=="openDataServer") {
         return new ExpressionCommand(new OpenDataServerCommand(varMap, it, bindMap,this));
+    }
+    if(word=="connect") {
+        return new ExpressionCommand(new ConnectCommand(varMap, it, bindMap,this));
+    }
+    if(word=="sleep") {
+        return new ExpressionCommand(new SleepCommand(varMap, it, bindMap));
     }
     return new ShuntingYard(varMap, it, bindMap);
 

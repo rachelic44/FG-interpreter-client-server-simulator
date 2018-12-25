@@ -7,7 +7,7 @@
 #include "ExpressionFactory.h"
 #include "DictionaryPath.h"
 #include "BoundMap.h"
-
+#include "ConnectCommand.h"
 CommandAssign::CommandAssign(map<string,double >* varMap,vector<string>::iterator* it, map<string,double&>* bindMap,
         ExpressionFactory* expressionFactory) {
     this->expressionFactory=expressionFactory;
@@ -20,7 +20,7 @@ double CommandAssign::excecute() {
 
     string var=*(*it);
     if(this->varMap->count(var)==0 && this->bindMap->count(var)==0) {
-        __throw_logic_error("no such variable was declared");//
+        __throw_logic_error("no such variable was declared");
     }
     (*it)++;
     if((*(*it))!="=") {
@@ -38,7 +38,7 @@ double CommandAssign::excecute() {
     if(this->bindMap->count(var)>0) {
         if(dictionary->count(bounded->at(var))>0) { //call the client t write it
             this->bindMap->at(var)=value;
-            //call the client
+            ConnectCommand::writeFunc(bounded->at(var));
         } else if(this->varMap->count(bounded->at(var))>0){
             this->bindMap->at(var)=value;
         }
@@ -48,5 +48,6 @@ double CommandAssign::excecute() {
         }
         this->varMap->at(var)=value; //not supposed to reach here, it is assign.
     }
+    int yy =5;
 
 }

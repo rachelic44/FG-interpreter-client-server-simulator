@@ -18,7 +18,7 @@
 #include "BoundMap.h"
 #include <pthread.h>
 #include <iostream>
-
+#include <unistd.h>
 
 DictionaryPath *DictionaryPath::map_instance = NULL;
 BoundMap *BoundMap::map_instance = NULL;
@@ -70,24 +70,19 @@ int main() {
 
 //string string1="var x= bind \"/engines/engine/rpm\" x=5"; //todo works
 
-    string string1 = "openDataServer 5400 10";
+  //  string string1 = "connect 172.18.32.5 5402 var x= bind \"/controls/flight/aileron\" x=-1"; //todo wotks
 
+  string string1 = "openDataServer 5400 10";
     vector<string> vec = lexerParser.splitter(string1);
     lexerParser.parser(vec);
-//cout<<lexerParser.getBindMap()->at("y");
-/*for(auto sm: *BoundMap::instance()->getMap()) {
-    cout<<endl<<"firsr "+sm.first+"second "+sm.second;
-}*/
-//lexerParser.getVarMap()->at("x")=3;
-    // cout<<endl<<lexerParser.getBindMap()->at("y");
-    /* d->at("/instrumentation/airspeed-indicator/indicated-speed-kt")=7;
-     cout<<endl<<d->at("/pp");
-     cout<<endl<<lexerParser.getBindMap()->at("t");
-     lexerParser.getBindMap()->at("t")=8;
-     cout<<d->at("/instrumentation/airspeed-indicator/indicated-speed-kt");
-     cout<<endl<<d->at("/pp");*/
-//    cout << lexerParser.getVarMap()->at("x");
-    int y = 9;
+
+  //  cout << lexerParser.getBindMap()->at("x");
+   // cout<<d->at("/controls/flight/aileron")<<endl;
+
+
+   char a;
+   cin>>a;
 
     pthread_exit(nullptr);
+
 }

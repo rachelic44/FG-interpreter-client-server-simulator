@@ -14,6 +14,8 @@
 #include "CommandAssign.h"
 #include "CommandVar.h"
 #include "ExpressionFactory.h"
+#include "DictionaryPath.h"
+
 #define VAR "v"
 
 
@@ -108,5 +110,12 @@ void LexerParser::parser(vector<string> stringVector) {
           }*/
         expressionFactory.create(*it)->evaluate();
 
+
     }
+//    map<string, double> *d =  DictionaryPath::instance()->getMap();
+//
+//    while(true) {
+//        cout<<d->at("/instrumentation/airspeed-indicator/indicated-speed-kt")<<endl;
+//        sleep(1/10);
+//    }
 }

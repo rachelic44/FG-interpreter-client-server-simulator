@@ -6,8 +6,8 @@
 #include <map>
 #include <algorithm>
 
-#define DEBUG
-#define PORTDEBUG 5051
+//#define DEBUG
+//#define PORTDEBUG 5051
 
 
 OpenDataServerCommand::OpenDataServerCommand(map<string, double> *varMp, vector<string>::iterator *itt,
@@ -18,7 +18,7 @@ OpenDataServerCommand::OpenDataServerCommand(map<string, double> *varMp, vector<
     this->varMap = varMp;
 }
 
-vector<string> makeItSplitted(char *buffer) {
+vector<string> makeItSplitted(const char *buffer) {
     vector<string> vec;
     string temp;
     while (*buffer != '\n') {
@@ -35,7 +35,7 @@ vector<string> makeItSplitted(char *buffer) {
     return vec;
 }
 
-void initializeMap(map<string, double> *dictionaryMap, char *buffer) {
+void initializeMap(map<string, double> *dictionaryMap, const char *buffer) {
     vector<string> splitted = makeItSplitted(buffer);
     dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt") = stod(splitted[0]);
     dictionaryMap->at("/instrumentation/altimeter/indicated-altitude-ft") = stod(splitted[1]);
@@ -60,6 +60,8 @@ void initializeMap(map<string, double> *dictionaryMap, char *buffer) {
     dictionaryMap->at("/controls/flight/flaps") = stod(splitted[20]);
     dictionaryMap->at("/controls/engines/engine/throttle") = stod(splitted[21]);
     dictionaryMap->at("/engines/engine/rpm") = stod(splitted[22]);
+
+    cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt");
 }
 
 
@@ -67,8 +69,11 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
                     pthread_cond_t *cond) {
     //pthread_mutex_lock(&mutex);
 
+    string tillNewLine;
+    string data;
+    int readBytes;
     int sockfd, newsockfd, portno, clilen;
-    char buffer[2014];
+    char buffer[1024];
     struct sockaddr_in serv_addr{}, cli_addr{};
     int n;
     /* First call to socket() function */
@@ -80,9 +85,9 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
     /* Initialize socket structure */
     bzero((char *) &serv_addr, sizeof(serv_addr));
     portno = portNU;
-#ifdef DEBUG
-    portno = PORTDEBUG;
-#endif
+//#ifdef DEBUG
+//    portno = PORTDEBUG;
+//#endif
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(portno);
@@ -101,19 +106,20 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
         exit(1);
     }
 
+
+    // Endless loop, read data until program finishes.
     while (true) {
 
+        bzero(buffer, 1024);
+        n = read(newsockfd, buffer, 1023);
 
-        bzero(buffer, 2014);
-        n = read(newsockfd, buffer, 2013);
+        if (n < 0) {
+            throw "Failed to read from client.";
+        }
         pthread_mutex_lock(mutex1);
-        initializeMap(dictionaryMap, buffer);
-        cout << "success\n" << endl;
-        cout.flush();
-        const char* message = "success\n";
-        write(newsockfd, message, strlen(message));
+        initializeMap(dictionaryMap,buffer);
         pthread_mutex_unlock(mutex1);
-
+        cout<<"success"<<endl;
 
         if (n < 0) {
             perror("ERROR reading from socket");
@@ -123,13 +129,40 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
             perror("ERROR writing to socket");
             exit(1);
         }
-        // pthread_cond_signal(cond);
+        sleep(1 / 10);
     }
 
-    // pthread_cond_signal(&cond);
-    //pthread_mutex_unlock(&mutex);
-}
 
+
+//    while (true) {
+//
+//        bzero(buffer, 1024);
+//        n = read(newsockfd, buffer, 1023);
+//        pthread_mutex_lock(mutex1);
+//        initializeMap(dictionaryMap, buffer);
+//        cout << "success\n" << endl;
+//        cout.flush();
+//        const char* message = "success\n";
+//        write(newsockfd, message, strlen(message));
+//        pthread_mutex_unlock(mutex1);
+//
+//
+//        if (n < 0) {
+//            perror("ERROR reading from socket");
+//            exit(1);
+//        }
+//        if (n < 0) {
+//            perror("ERROR writing to socket");
+//            exit(1);
+//        }
+//        sleep(1/10);
+//        // pthread_cond_signal(cond);
+//    }
+//
+//    // pthread_cond_signal(&cond);
+//    //pthread_mutex_unlock(&mutex);
+//}
+}
 
 void *threadOpen(void *params) {
     struct serverParams *parameters = static_cast<struct serverParams *>(params);
