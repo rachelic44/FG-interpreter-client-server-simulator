@@ -14,7 +14,7 @@
 #include "BoolSingelton.h"
 
 using namespace std;
-
+///VHJG
 class ConnectCommand : public Command {
 private:
     map<string,double&>* bindMap;

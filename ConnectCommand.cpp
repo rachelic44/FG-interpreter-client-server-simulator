@@ -132,7 +132,7 @@ double ConnectCommand::excecute() {
 
 
         sockId = sockfd;
-
+        //JJVHFHFJHJ
         cout << "connected2" << endl;
 
 
