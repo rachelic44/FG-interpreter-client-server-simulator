@@ -69,7 +69,7 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
                     pthread_cond_t *cond) {
     //pthread_mutex_lock(&mutex);
 
-    string tillNewLine;
+
     string data;
     int readBytes;
     int sockfd, newsockfd, portno, clilen;
