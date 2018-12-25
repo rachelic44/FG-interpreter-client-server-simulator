@@ -40,7 +40,7 @@ public:
                                       "/controls/flight/elevator",
                                       "/controls/flight/rudder",
                                       "/controls/flight/flaps",
-                                      "/controls/engines/engine/throttle",
+                                      "/controls/engines/current-engine/throttle",
                                       "/engines/engine/rpm"};
             for(int i=0;i<pathVector.size();i++) {
                 map_instance->setValue(pathVector[i],0);

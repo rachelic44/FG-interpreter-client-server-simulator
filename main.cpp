@@ -23,6 +23,7 @@
 DictionaryPath *DictionaryPath::map_instance = NULL;
 BoundMap *BoundMap::map_instance = NULL;
 
+static bool toStop=false;
 
 //BIndingTable *BIndingTable::map_instance = NULL;
 

@@ -64,16 +64,81 @@ void initializeMap(map<string, double> *dictionaryMap, const char *buffer) {
     cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt");
 }
 
+void updateMaps(std::string str, map<string,double>* dictionaryMap) {
+
+    double values[23]; /* Array for the values. */
+    char* p;          /* Tell's us if the conversion to double worked. */
+    std::stringstream parser; /* Parse out string by commas */
+    int counter = 0; /* Tells us which index to set. */
+
+    /* Divide by commas and update the double array */
+    parser.str(str);
+    while (parser.good() && counter < 23) {
+        std::string val;
+        std::getline(parser, val, ',');
+        values[counter] = std::strtod(val.c_str(), nullptr);
+        ++counter;
+    }
+    parser.clear();
+
+    /* Update the map */
+    dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt")=values[0];
+    dictionaryMap->at("/instrumentation/altimeter/indicated-altitude-ft")=values[1];
+    dictionaryMap->at("/instrumentation/altimeter/pressure-alt-ft")=values[2];
+    dictionaryMap->at("/instrumentation/attitude-indicator/indicated-pitch-deg")=values[3];
+    dictionaryMap->at("/instrumentation/attitude-indicator/indicated-roll-deg")=values[4];
+    dictionaryMap->at("/instrumentation/attitude-indicator/internal-pitch-deg")=values[5];
+    dictionaryMap->at("/instrumentation/attitude-indicator/internal-roll-deg")=values[6];
+    dictionaryMap->at("/instrumentation/encoder/indicated-altitude-ft")=values[7];
+    dictionaryMap->at("/instrumentation/encoder/pressure-alt-ft")=values[8];
+    dictionaryMap->at("/instrumentation/gps/indicated-altitude-ft")=values[9];
+    dictionaryMap->at("/instrumentation/gps/indicated-ground-speed-kt")=values[10];
+    dictionaryMap->at("/instrumentation/gps/indicated-vertical-speed")=values[11];
+    dictionaryMap->at("/instrumentation/heading-indicator/indicated-heading-deg")=values[12];
+    dictionaryMap->at("/instrumentation/magnetic-compass/indicated-heading-deg")=values[13];
+    dictionaryMap->at("/instrumentation/slip-skid-ball/indicated-slip-skid")=values[14];
+    dictionaryMap->at("/instrumentation/turn-indicator/indicated-turn-rate")=values[15];
+    dictionaryMap->at("/instrumentation/vertical-speed-indicator/indicated-speed-fpm")=values[16];
+    dictionaryMap->at("/controls/flight/aileron")=values[17];
+    dictionaryMap->at("/controls/flight/elevator")=values[18];
+    dictionaryMap->at("/controls/flight/rudder")=values[19];
+    dictionaryMap->at("/controls/flight/flaps")=values[20];
+    dictionaryMap->at("/controls/engines/current-engine/throttle")=values[21];
+    dictionaryMap->at("/engines/engine/rpm")=values[22];
+
+    cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt")<<endl;
+    cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt")<<endl;
+    cout<<dictionaryMap->at("/instrumentation/altimeter/indicated-altitude-ft")<<endl;
+    cout<<dictionaryMap->at("/instrumentation/altimeter/pressure-alt-ft")<<endl;
+    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/indicated-pitch-deg")<<endl;
+    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/indicated-roll-deg")<<endl;
+    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/internal-pitch-deg")<<endl;
+    cout<<dictionaryMap->at("/instrumentation/attitude-indicator/internal-roll-deg")<<endl;
+    cout<<dictionaryMap->at("/instrumentation/encoder/indicated-altitude-ft")<<endl;
+    cout<<dictionaryMap->at("/instrumentation/encoder/pressure-alt-ft")<<endl;
+
+}
+/**
+ * Check's if the char* has a \n char.
+ * @param data The char* to search in.
+ * @return True if contains, else false.
+ */
+bool isNewLine(std::string& data) {
+
+    return ((data.find('\n') != std::string::npos));
+}
+
 
 void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthread_mutex_t *mutex1,
                     pthread_cond_t *cond) {
     //pthread_mutex_lock(&mutex);
 
 
-    string data;
-    int readBytes;
+    std::string tillNewLine ; /* The set of  data. */
+    std::string dataRead    ; /* The un-used data. */
+    char buffer[1024];        /* The data we currently read. */
+    int readBytes;            /* The bytes we currently read. */
     int sockfd, newsockfd, portno, clilen;
-    char buffer[1024];
     struct sockaddr_in serv_addr{}, cli_addr{};
     int n;
     /* First call to socket() function */
@@ -110,7 +175,59 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
     // Endless loop, read data until program finishes.
     while (true) {
 
+        /* Read socket. */
         bzero(buffer, 1024);
+        readBytes = (int) read(newsockfd, buffer, 1023);
+
+        if (readBytes < 0) { /* Check if the read succeeded. */
+           // maps->isServerOpenFailed = true;
+            throw "Could not read from client."; /* If failed throw. */
+        } else {
+
+            /* If server opened, notify main thread. */
+           // if (!maps->isServerOpen) {
+           //     maps->isServerOpen = true;
+          //  }
+
+            /* Save our read data in a string. */
+            dataRead += buffer;
+
+            /* Check if this is a full set of data. */
+            if (isNewLine(dataRead)) {
+
+                /* Get the set of data. */
+                tillNewLine = dataRead.substr(0, dataRead.find_first_of('\n'));
+
+                /* Saving unused data in string. */
+                dataRead = dataRead.substr(dataRead.find_first_of('\n') + 1, dataRead.size() - 1);
+
+                /* Making sure there are no "leftovers" from data. */
+                while (dataRead[0] == '\n') {
+                    dataRead = dataRead.substr(1, dataRead.size() - 1);
+                }
+
+                /* Update map If we got new data. */
+                if (!tillNewLine.empty()) {
+                    pthread_mutex_lock(mutex1);
+                    updateMaps(tillNewLine, dictionaryMap);
+                    pthread_mutex_unlock(mutex1);
+                }
+                cout<<"success"<<endl;
+
+
+                tillNewLine = "";
+                dataRead.clear();
+            }
+        }
+    }
+
+    /* Close socket. */
+    close(newsockfd);
+}
+
+
+
+       /* bzero(buffer, 1024);
         n = read(newsockfd, buffer, 1023);
 
         if (n < 0) {
@@ -129,8 +246,8 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
             perror("ERROR writing to socket");
             exit(1);
         }
-        sleep(1 / 10);
-    }
+        sleep(1 / 10);*/
+
 
 
 
@@ -162,7 +279,7 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
 //    // pthread_cond_signal(&cond);
 //    //pthread_mutex_unlock(&mutex);
 //}
-}
+
 
 void *threadOpen(void *params) {
     struct serverParams *parameters = static_cast<struct serverParams *>(params);

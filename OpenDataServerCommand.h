@@ -29,11 +29,11 @@
 #include <sys/socket.h>
 #include <iostream>
 #include <pthread.h>
-
+#include "DictionaryPath.h"
 using namespace std;
 
 struct serverParams {
-    map<string,double>* maap;
+    map<string,double>* maap=DictionaryPath::instance()->getMap();
     int portPa;
     int hertzPa;
     pthread_mutex_t * mutex;
