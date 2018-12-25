@@ -19,11 +19,12 @@
 #include <pthread.h>
 #include <iostream>
 #include <unistd.h>
+#include "BoolSingelton.h"
 
 DictionaryPath *DictionaryPath::map_instance = NULL;
+BoolSingelton* BoolSingelton::boolInstance=NULL;
 BoundMap *BoundMap::map_instance = NULL;
 
-static bool toStop=false;
 
 //BIndingTable *BIndingTable::map_instance = NULL;
 
@@ -73,7 +74,7 @@ int main() {
 
   //  string string1 = "connect 172.18.32.5 5402 var x= bind \"/controls/flight/aileron\" x=-1"; //todo wotks
 
-  string string1 = "openDataServer 5400 10 enterc connect 172.18.32.5 10 ";
+  string string1 = "openDataServer 5400 10 connect 172.18.32.5 5402 var x = bind \"/controls/flight/aileron\" x=1";
     vector<string> vec = lexerParser.splitter(string1);
     lexerParser.parser(vec);
 

@@ -115,7 +115,8 @@ void updateMaps(std::string str, map<string,double>* dictionaryMap) {
     cout<< dictionaryMap->at("/instrumentation/attitude-indicator/internal-pitch-deg")<<endl;
     cout<<dictionaryMap->at("/instrumentation/attitude-indicator/internal-roll-deg")<<endl;
     cout<<dictionaryMap->at("/instrumentation/encoder/indicated-altitude-ft")<<endl;
-    cout<<dictionaryMap->at("/instrumentation/encoder/pressure-alt-ft")<<endl;
+    cout<<endl<<"the aileron ";
+    cout<<dictionaryMap->at("/controls/flight/aileron")<<endl;
 
 }
 /**
@@ -130,7 +131,7 @@ bool isNewLine(std::string& data) {
 
 
 void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthread_mutex_t *mutex1,
-                    pthread_cond_t *cond) {
+                    pthread_cond_t *cond,vector<string>::iterator* it) {
     //pthread_mutex_lock(&mutex);
 
 
@@ -183,7 +184,10 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
            // maps->isServerOpenFailed = true;
             throw "Could not read from client."; /* If failed throw. */
         } else {
+            BoolSingelton::instance()->setValue(true);
 
+           // cout<<"Server Is OPEN)";
+           // (*it)++;
             /* If server opened, notify main thread. */
            // if (!maps->isServerOpen) {
            //     maps->isServerOpen = true;
@@ -288,7 +292,7 @@ void *threadOpen(void *params) {
     int hz = parameters->hertzPa;
 
 
-    readFromServer(map, port, hz, parameters->mutex, parameters->cond);
+    readFromServer(map, port, hz, parameters->mutex, parameters->cond,parameters->it);
 
 }
 
@@ -305,6 +309,8 @@ double OpenDataServerCommand::excecute() {
     params->hertzPa = hertz;
     params->mutex = this->expressionFactory->getMutix();
     params->cond = this->expressionFactory->getCond();
+    params->it=this->it;
+
 
     pthread_t pthread;
 

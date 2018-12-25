@@ -30,6 +30,9 @@
 #include <iostream>
 #include <pthread.h>
 #include "DictionaryPath.h"
+#include "BoolSingelton.h"
+
+
 using namespace std;
 
 struct serverParams {
@@ -38,6 +41,7 @@ struct serverParams {
     int hertzPa;
     pthread_mutex_t * mutex;
     pthread_cond_t* cond;
+    vector<string>::iterator* it;
 };
 
 class OpenDataServerCommand : public Command {
