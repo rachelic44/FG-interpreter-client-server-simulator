@@ -45,12 +45,14 @@ Expression *ExpressionFactory::create(string word) {
         return new ExpressionCommand(new BindCommand(varMap, it, bindMap));
     }
     if(word=="enterc") {
+        cout<<"----connecetd0";
         return new ExpressionCommand(new CommandenterC(it));
     }
     if(word=="openDataServer") {
         return new ExpressionCommand(new OpenDataServerCommand(varMap, it, bindMap,this));
     }
     if(word=="connect") {
+        cout<<"connecetd0";
         return new ExpressionCommand(new ConnectCommand(varMap, it, bindMap,this));
     }
     if(word=="sleep") {

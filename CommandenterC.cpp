@@ -13,4 +13,5 @@ double CommandenterC::excecute() {
     char c;
     cin>>c;
     (*it)++;
+    cout<<"was in enterc";
 }
