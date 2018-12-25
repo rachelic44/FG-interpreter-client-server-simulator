@@ -52,7 +52,7 @@ Expression *ExpressionFactory::create(string word) {
         return new ExpressionCommand(new OpenDataServerCommand(varMap, it, bindMap,this));
     }
     if(word=="connect") {
-        cout<<"connecetd0";
+       // cout<<"connecetd0"; todo check - came here too many times
         return new ExpressionCommand(new ConnectCommand(varMap, it, bindMap,this));
     }
     if(word=="sleep") {
