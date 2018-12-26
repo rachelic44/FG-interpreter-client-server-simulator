@@ -196,7 +196,11 @@ void ShuntingYard::addAnArithmetic(stack<char> *operatorStack, stack<string> *fi
 
 //recursive function to make the stack an Expression
 Expression* ShuntingYard::calculate(stack<string> *finalStack) {
-    map<string,Expression*> arithmeticMap={{"+",new Plus()},{"-",new Minus()},{"/",new Divide},{"*",new Multiply}};
+    Plus* plus=new Plus(); Multiply* multiply=new Multiply; Minus* minus=new Minus; Divide* divide=new Divide;
+    this->vecToRelease.push_back(plus); this->vecToRelease.push_back(minus);
+    this->vecToRelease.push_back(divide); this->vecToRelease.push_back(multiply);
+    map<string,Expression*> arithmeticMap={{"+",plus},{"-",minus},{"/",divide},{"*",multiply}};
+
     string current=finalStack->top();
     Expression *expression;
     if (current == "+" || current == "-" || current == "/" || current == "*") {
@@ -205,8 +209,9 @@ Expression* ShuntingYard::calculate(stack<string> *finalStack) {
         expression->setValues(calculate(finalStack),calculate(finalStack));
         return expression;
     } else {
-        expression=new Number(current);
+        Expression* num=new Number(current);
+        this->vecToRelease.push_back(num);
         finalStack->pop();
-        return expression;
+        return num;
     }
 }

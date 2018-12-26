@@ -28,6 +28,7 @@ private:
     string tokens;
     map<string,double&>* bindMap;
     map<string,double >valMapAll;
+    vector<Expression*> vecToRelease;
 
     void addAnArithmetic(stack<char>* operatorStack, stack<string>* finalStack, char act);
     void refeal(stack<char>* operatorStack, stack<string>* finalStack);
@@ -40,6 +41,11 @@ public:
     double evaluate();
     virtual void setValues(Expression* exp1,Expression* exp2){
 
+    }
+    ~ShuntingYard() {
+        for(Expression* expression: this->vecToRelease) {
+            delete expression;
+        }
     }
 
 

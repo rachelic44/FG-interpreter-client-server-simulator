@@ -33,25 +33,6 @@ using namespace std;
 
 int main() {
 
-    map<string, int> m;
-    map<string, int &> m2;
-    int j = 5;
-    m.insert({"path", 5});
-    m2.insert({"b", m.at("path")});
-    m2.at("b") = 0;
-    m.at("path") = 6;
-    int yy;
-    pml *ppp = new pml();
-    ppp->getmap();
-    DictionaryPath dictionaryPath;
-    map<string, double> *d = dictionaryPath.instance()->getMap();
-    map<string, double &> mapTo;
-    mapTo.insert({"a", d->at("b")});
-    mapTo.insert({"g", mapTo.at("a")});
-    mapTo.at("a") = 3;
-    map<string, double> u = *d;
-
-    string pp = "-4+5";
 
 
     //ShuntingYard shan(&map, nullptr);
@@ -59,7 +40,6 @@ int main() {
 //int x=shan.evaluate();
 //cout<<pp<<"="<<shan.evaluate();
 
-    LexerParser lexerParser;
 //string string1="if 3!=5 { if 3 != 5 \n{ var t=7 } var c=2*(3 +5) } t=6"; //todo works
 //string string1="var x=5\n print x*-6-6\n"; //todo works
     //string string1="if 3!=5 \n{ var c=2*(\n3 +5) print c}";
@@ -74,11 +54,15 @@ int main() {
 
   //  string string1 = "connect 172.18.32.5 5402 var x= bind \"/controls/flight/aileron\" x=-1"; //todo wotks
 
-  string string1 = "openDataServer 5400 10 connect 172.18.32.5 5402 var x = bind \"/controls/flight/aileron\" x=1 sleep 250";
+ // string string1 = "openDataServer 5400 10 connect 172.18.32.5 5402 var x = bind \"/controls/flight/aileron\" x=1 sleep 250"; //todo the main t -works
+
+
+    LexerParser lexerParser;
+ string string1="var x=3+5";
     vector<string> vec = lexerParser.splitter(string1);
     lexerParser.parser(vec);
 
-  //  cout << lexerParser.getBindMap()->at("x");
+    cout << lexerParser.getVarMap()->at("x");
    // cout<<d->at("/controls/flight/aileron")<<endl;
 
 

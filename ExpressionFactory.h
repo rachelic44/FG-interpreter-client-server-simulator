@@ -8,6 +8,7 @@
 
 #include <string>
 #include "Expression.h"
+#include "Command.h"
 #include <map>
 #include <vector>
 
@@ -21,6 +22,8 @@ private:
     vector<string>::iterator* it;
     pthread_cond_t* cond;
     pthread_mutex_t* mutex;
+    vector<Expression*> vecToReleaseMemory;
+    vector<Command*> vecToRelaseCommands;
 public:
     ExpressionFactory(map<string,double >* varMap, vector<string>::iterator* it,map<string,double&>* bindMap
     ,pthread_cond_t* cond, pthread_mutex_t* mutex);
@@ -30,6 +33,14 @@ public:
     }
     pthread_cond_t* getCond() {
         return this->cond;
+    }
+    ~ExpressionFactory() {
+        for(Command* command: this->vecToRelaseCommands) {
+           delete command;
+        }
+        for(Expression* expression : this->vecToReleaseMemory) {
+            delete expression;
+        }
     }
 };
 

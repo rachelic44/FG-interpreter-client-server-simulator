@@ -151,9 +151,7 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
     /* Initialize socket structure */
     bzero((char *) &serv_addr, sizeof(serv_addr));
     portno = portNU;
-//#ifdef DEBUG
-//    portno = PORTDEBUG;
-//#endif
+
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(portno);
@@ -181,7 +179,6 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
         readBytes = (int) read(newsockfd, buffer, 1023);
 
         if (readBytes < 0) { /* Check if the read succeeded. */
-           // maps->isServerOpenFailed = true;
             throw "Could not read from client."; /* If failed throw. */
         } else {
             BoolSingelton::instance()->setValue(true);
@@ -313,8 +310,6 @@ double OpenDataServerCommand::excecute() {
 
 
     pthread_t pthread;
-
-    //pthread_mutex_lock(&mutex);
     if (pthread_create(&pthread, nullptr, threadOpen, (void *) (params)) != 0) {
         perror("A problem accured");
     }

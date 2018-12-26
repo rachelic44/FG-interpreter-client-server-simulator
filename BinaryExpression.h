@@ -66,5 +66,9 @@ virtual void setValues(Expression* exp1,Expression* exp2) {
     this->rightExpression=exp2;
 }
 
+double evaluate() {
+    
+}
+
 };
 #endif //PROJECT_BINARYEXPRESSION_H

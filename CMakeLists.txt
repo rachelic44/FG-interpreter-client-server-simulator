@@ -1,7 +1,68 @@
 cmake_minimum_required(VERSION 3.12)
-project(project)
+project(project14)
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
-set(CMAKE_CXX_FLAGS-pthread)
-add_executable(project main.cpp UnaryExpression.h Expression.h BinaryExpression.h Plus.cpp Plus.h Number.cpp Number.h Minus.cpp Minus.h Divide.cpp Divide.h Multiply.cpp Multiply.h LexerParser.cpp LexerParser.h Command.h CommandAssign.cpp CommandAssign.h CommandVar.cpp CommandVar.h ShuntingYard.cpp ShuntingYard.h ExpressionCommand.cpp ExpressionCommand.h ExpressionFactory.cpp ExpressionFactory.h ConditionParser.cpp ConditionParser.h IfCommand.cpp IfCommand.h WhileCommand.cpp WhileCommand.h OpenServerCommand.cpp OpenServerCommand.h PrintCommand.cpp PrintCommand.h pml.cpp pml.cpp pml.h SymbolTableMap.h DictionaryPath.h BindCommand.cpp BindCommand.h BoundMap.h CommandenterC.cpp CommandenterC.h OpenDataServerCommand.cpp OpenDataServerCommand.h DataReaderServer.cpp DataReaderServer.h ExitCommand.cpp ExitCommand.h SleepCommand.cpp SleepCommand.h ConnectCommand.cpp ConnectCommand.h BoolSingelton.h)
+set(CMAKE_CXX_FLAGS -pthread)
+
+include_directories(.)
+
+add_executable(project14
+    cmake-build-debug/CMakeCache.txt
+    BinaryExpression.h
+    BindCommand.cpp
+    BindCommand.h
+    BoolSingelton.h
+    BoundMap.h
+    CMakeLists.txt
+    Command.h
+    CommandAssign.cpp
+    CommandAssign.h
+    CommandenterC.cpp
+    CommandenterC.h
+    CommandVar.cpp
+    CommandVar.h
+    ConditionParser.cpp
+    ConditionParser.h
+    ConnectCommand.cpp
+    ConnectCommand.h
+    DataReaderServer.cpp
+    DataReaderServer.h
+    DictionaryPath.h
+    Divide.cpp
+    Divide.h
+    ExitCommand.cpp
+    ExitCommand.h
+    Expression.h
+    ExpressionCommand.cpp
+    ExpressionCommand.h
+    ExpressionFactory.cpp
+    ExpressionFactory.h
+    IfCommand.cpp
+    IfCommand.h
+    LexerParser.cpp
+    LexerParser.h
+    main.cpp
+    Minus.cpp
+    Minus.h
+    Multiply.cpp
+    Multiply.h
+    Number.cpp
+    Number.h
+    OpenDataServerCommand.cpp
+    OpenDataServerCommand.h
+    OpenServerCommand.cpp
+    OpenServerCommand.h
+    Plus.cpp
+    Plus.h
+    pml.cpp
+    pml.h
+    PrintCommand.cpp
+    PrintCommand.h
+    ShuntingYard.cpp
+    ShuntingYard.h
+    SleepCommand.cpp
+    SleepCommand.h
+    SymbolTableMap.h
+    UnaryExpression.h
+    WhileCommand.cpp
+    WhileCommand.h)

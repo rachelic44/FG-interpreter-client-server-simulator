@@ -23,42 +23,85 @@ ExpressionFactory::ExpressionFactory(map<string, double> *varMap, vector<string>
     this->it = it;
     this->mutex=mutex;
     this->cond=cond;
+
 }
 
 Expression *ExpressionFactory::create(string word) {
     if (word == "var") {
-        return new ExpressionCommand(new CommandVar(varMap, it, bindMap,this));
+        Command* com=new CommandVar(varMap, it, bindMap,this);
+        Expression* expressionToReturn=new ExpressionCommand(com);
+        this->vecToReleaseMemory.push_back(expressionToReturn);
+        this->vecToRelaseCommands.push_back(com);
+        return expressionToReturn;
     }
     if (word == "if") {
-        return new ExpressionCommand(new IfCommand(varMap, it, bindMap,this));
+        Command* com=new IfCommand(varMap, it, bindMap,this);
+        Expression* expressionToReturn=new ExpressionCommand(com);
+        this->vecToReleaseMemory.push_back(expressionToReturn);
+        this->vecToRelaseCommands.push_back(com);
+        return expressionToReturn;
     }
     if (word == "while") {
-        return new ExpressionCommand(new WhileCommand(varMap, it, bindMap,this));
+        Command* com=new WhileCommand(varMap, it, bindMap,this);
+        Expression* expressionToReturn=new ExpressionCommand(com);
+        this->vecToReleaseMemory.push_back(expressionToReturn);
+        this->vecToRelaseCommands.push_back(com);
+        return expressionToReturn;
     }
     if (word == "print") {
-        return new ExpressionCommand(new PrintCommand(varMap, it, bindMap));
+        Command* com=new PrintCommand(varMap, it, bindMap);
+        Expression* expressionToReturn=new ExpressionCommand(com);
+        this->vecToReleaseMemory.push_back(expressionToReturn);
+        this->vecToRelaseCommands.push_back(com);
+        return expressionToReturn;
     }
     if (((this->varMap->count(word) > 0) || this->bindMap->count(word) > 0) && ((*((*it) + 1)) == "=")) { //todo U
-        return new ExpressionCommand(new CommandAssign(varMap, it, bindMap,this));
+        Command* com=new CommandAssign(varMap, it, bindMap,this);
+        Expression* expressionToReturn=new ExpressionCommand(com);
+        this->vecToRelaseCommands.push_back(com);
+        this->vecToReleaseMemory.push_back(expressionToReturn);
+        return expressionToReturn;
     }
     if(word=="bind") {
-        return new ExpressionCommand(new BindCommand(varMap, it, bindMap));
+        Command* com=new BindCommand(varMap, it, bindMap);
+        Expression* expressionToReturn=new ExpressionCommand(com);
+        this->vecToReleaseMemory.push_back(expressionToReturn);
+        this->vecToRelaseCommands.push_back(com);
+        return expressionToReturn;
     }
     if(word=="enterc") {
         cout<<"----connecetd0";
-        return new ExpressionCommand(new CommandenterC(it));
+        Command* com=new CommandenterC(it);
+        Expression* expressionToReturn=new ExpressionCommand(com);
+        this->vecToReleaseMemory.push_back(expressionToReturn);
+        this->vecToRelaseCommands.push_back(com);
+        return expressionToReturn;
     }
     if(word=="openDataServer") {
-        return new ExpressionCommand(new OpenDataServerCommand(varMap, it, bindMap,this));
+        Command* com=new OpenDataServerCommand(varMap, it, bindMap,this);
+        Expression* expressionToReturn=new ExpressionCommand(com);
+        this->vecToReleaseMemory.push_back(expressionToReturn);
+        this->vecToRelaseCommands.push_back(com);
+        return expressionToReturn;
     }
     if(word=="connect") {
        // cout<<"connecetd0"; todo check - came here too many times
-        return new ExpressionCommand(new ConnectCommand(varMap, it, bindMap,this));
+       Command* com =new ConnectCommand(varMap, it, bindMap,this);
+        Expression* expressionToReturn=new ExpressionCommand(com);
+        this->vecToReleaseMemory.push_back(expressionToReturn);
+        this->vecToRelaseCommands.push_back(com);
+        return expressionToReturn;
     }
     if(word=="sleep") {
-        return new ExpressionCommand(new SleepCommand(varMap, it, bindMap));
+        Command* com=new SleepCommand(varMap, it, bindMap);
+        Expression* expressionToReturn=new ExpressionCommand(com);
+        this->vecToReleaseMemory.push_back(expressionToReturn);
+        this->vecToRelaseCommands.push_back(com);
+        return expressionToReturn;
     }
-    return new ShuntingYard(varMap, it, bindMap);
+    Expression* expressionToReturn=new ShuntingYard(varMap, it, bindMap);
+    this->vecToReleaseMemory.push_back(expressionToReturn);
+    return expressionToReturn;
 
     //chack todo if it is a null - then it is supposed to ba a line starts with variable
 }
