@@ -65,12 +65,12 @@ double ConnectCommand::excecute() {
 
 
         const char *ipp = ip.c_str();
-        string msg = "set /controls/flight/aileron -1\r\n";
+
         int sockfd, n;
         struct sockaddr_in serv_addr;
         struct hostent *server;
 
-        const char *buffer = msg.c_str();
+
 
         /* Create a socket point */
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
