@@ -42,41 +42,9 @@ void ConnectCommand::writeFunc(string path) {
     int num=sockId;
 
 
-  /*  const char* ipp=ipT.c_str();
-
-    struct sockaddr_in serv_addr;
-    struct hostent *server;
-
-
-
-    if (sockId < 0) {
-        perror("ERROR opening socket");
-        exit(1);
-    }
-
-    server = gethostbyname(ipp);
-
-    if (server == NULL) {
-        fprintf(stderr,"ERROR, no such host\n");
-        exit(0);
-    }
-
-    bzero((char *) &serv_addr, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
-    serv_addr.sin_port = htons(portT);
-
-    /* Now connect to the server */
-  /*  if (connect(sockId, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-        perror("ERROR connecting");
-        exit(1);
-    }*/
-
-
-
-
-
+    cout<<"change " + send<<endl;
     int n=write(sockId, buffer, strlen(buffer));
+
     if (n < 0) {
         perror("ERROR writing to socket");
         exit(1);
@@ -132,7 +100,6 @@ double ConnectCommand::excecute() {
 
 
         sockId = sockfd;
-        //JJVHFHFJHJ
         cout << "connected2" << endl;
 
 

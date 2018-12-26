@@ -106,15 +106,15 @@ void updateMaps(std::string str, map<string,double>* dictionaryMap) {
     dictionaryMap->at("/controls/engines/current-engine/throttle")=values[21];
     dictionaryMap->at("/engines/engine/rpm")=values[22];
 
-    cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt")<<endl;
-    cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt")<<endl;
-    cout<<dictionaryMap->at("/instrumentation/altimeter/indicated-altitude-ft")<<endl;
-    cout<<dictionaryMap->at("/instrumentation/altimeter/pressure-alt-ft")<<endl;
-    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/indicated-pitch-deg")<<endl;
-    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/indicated-roll-deg")<<endl;
-    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/internal-pitch-deg")<<endl;
-    cout<<dictionaryMap->at("/instrumentation/attitude-indicator/internal-roll-deg")<<endl;
-    cout<<dictionaryMap->at("/instrumentation/encoder/indicated-altitude-ft")<<endl;
+//    cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt")<<endl;
+//    cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt")<<endl;
+//    cout<<dictionaryMap->at("/instrumentation/altimeter/indicated-altitude-ft")<<endl;
+//    cout<<dictionaryMap->at("/instrumentation/altimeter/pressure-alt-ft")<<endl;
+//    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/indicated-pitch-deg")<<endl;
+//    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/indicated-roll-deg")<<endl;
+//    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/internal-pitch-deg")<<endl;
+//    cout<<dictionaryMap->at("/instrumentation/attitude-indicator/internal-roll-deg")<<endl;
+//    cout<<dictionaryMap->at("/instrumentation/encoder/indicated-altitude-ft")<<endl;
     cout<<endl<<"the aileron ";
     cout<<dictionaryMap->at("/controls/flight/aileron")<<endl;
 

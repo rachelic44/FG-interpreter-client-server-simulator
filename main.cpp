@@ -60,7 +60,7 @@ if(args==1) {
 } else if(args==2) {
     fileScript=turnFileToString(argv[1]);
 } else {
-    throw "Too Many rguments";
+    throw "Too Many raguments";
 }
     LexerParser lexerParser;
     vector<string> vec = lexerParser.splitter(fileScript);
