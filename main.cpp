@@ -20,6 +20,7 @@
 #include <iostream>
 #include <unistd.h>
 #include "BoolSingelton.h"
+#include <fstream>
 
 DictionaryPath *DictionaryPath::map_instance = NULL;
 BoolSingelton* BoolSingelton::boolInstance=NULL;
@@ -31,9 +32,40 @@ BoundMap *BoundMap::map_instance = NULL;
 using namespace std;
 
 
-int main() {
+string turnFileToString (string fileName ) {
+    ifstream myfile (fileName);
+    string line;
+    string whole="";
+    if(!myfile.is_open()) {
+        myfile.open(fileName,fstream::app | fstream::in);
+    }
+    if (myfile.is_open())
+    {
+        while ( getline (myfile,line) )
+        {
+           whole+=line+" ";
+        }
+        myfile.close();
+    } else {
+        throw "Could not open file";
+    }
+    return whole;
+}
 
+int main(int args,char **argv) {
 
+    string fileScript;
+if(args==1) {
+    throw "No file nme or script defined\n";
+} else if(args==2) {
+    fileScript=turnFileToString(argv[1]);
+} else {
+    throw "Too Many rguments";
+}
+    LexerParser lexerParser;
+    vector<string> vec = lexerParser.splitter(fileScript);
+    lexerParser.parser(vec);
+    cout << lexerParser.getVarMap()->at("x");
 
     //ShuntingYard shan(&map, nullptr);
 
@@ -57,12 +89,12 @@ int main() {
  // string string1 = "openDataServer 5400 10 connect 172.18.32.5 5402 var x = bind \"/controls/flight/aileron\" x=1 sleep 250"; //todo the main t -works
 
 
-    LexerParser lexerParser;
+  /*  LexerParser lexerParser;
  string string1="var x=3+5";
     vector<string> vec = lexerParser.splitter(string1);
     lexerParser.parser(vec);
 
-    cout << lexerParser.getVarMap()->at("x");
+    cout << lexerParser.getVarMap()->at("x");*/
    // cout<<d->at("/controls/flight/aileron")<<endl;
 
 

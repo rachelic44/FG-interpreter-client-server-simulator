@@ -28,7 +28,7 @@ double PrintCommand::excecute() {
         (*it)++; index++;
         str.erase(0,1);
         str.erase(str.length()-1,1);
-
+        cout<<str;
     } else {
         e = new ShuntingYard(this->varMap,(it),bindMap);
         cout << e->evaluate();
