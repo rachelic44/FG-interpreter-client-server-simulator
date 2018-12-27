@@ -91,6 +91,8 @@ bool ConditionParser::calculateHappens(int * index) {
     }
 
 
+    delete expression1;
+    delete expression2;
     return this->happens;
 }
 

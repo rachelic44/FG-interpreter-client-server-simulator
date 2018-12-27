@@ -30,8 +30,8 @@ ConnectCommand::ConnectCommand(map<string, double> *varMp, vector<string>::itera
 
 void ConnectCommand::writeFunc(string path) {
     map<string,double>* d=DictionaryPath::instance()->getMap();
-
-    string send; string copyPath=path;
+    string send;
+    string copyPath=path;
     copyPath.erase(0,1);
     if(d->count(path)>0) {
         send = ("set " + copyPath + " " + (to_string(d->at(path))) + "\r\n").c_str();
@@ -40,11 +40,8 @@ void ConnectCommand::writeFunc(string path) {
     }
     const char *buffer=send.c_str();
     int sockID=BoolSingelton::instance()->getSocketOfOpenedServer();
-
-
     cout<<"change " + send<<endl;
     int n=write(sockID, buffer, strlen(buffer));
-
     if (n < 0) {
         perror("ERROR writing to socket");
         exit(1);
@@ -54,61 +51,40 @@ void ConnectCommand::writeFunc(string path) {
 
 double ConnectCommand::excecute() {
     if(BoolSingelton::instance()->getDataIsOpen()) {
-
-
-        cout << "connected1" << endl;
         (*it)++;
         string ip = (**it);
         (*it)++;
         int portno = stoi(**it);
         (*it)++;
 
-
         const char *ipp = ip.c_str();
 
-        int sockfd, n;
+        int sockfd;
         struct sockaddr_in serv_addr;
         struct hostent *server;
 
-
-
         /* Create a socket point */
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
-
         if (sockfd < 0) {
             perror("ERROR opening socket");
             exit(1);
         }
-
         server = gethostbyname(ipp);
-
         if (server == NULL) {
             fprintf(stderr, "ERROR, no such host\n");
             exit(0);
         }
-
         bzero((char *) &serv_addr, sizeof(serv_addr));
         serv_addr.sin_family = AF_INET;
         bcopy((char *) server->h_addr, (char *) &serv_addr.sin_addr.s_addr, server->h_length);
         serv_addr.sin_port = htons(portno);
-
         /* Now connect to the server */
         if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
             perror("ERROR connecting");
             exit(1);
         }
-
-
         BoolSingelton::instance()->setSocketOfOpenedServer(sockfd);
         cout << "connected2" << endl;
-
-
-        if (n < 0) {
-            perror("ERROR reading from socket");
-            exit(1);
-        }
-
-
     } else {
         std::this_thread::__sleep_for(std::chrono::seconds(0),std::chrono::milliseconds(100));
     }

@@ -42,6 +42,7 @@ struct serverParams {
     pthread_mutex_t * mutex;
     pthread_cond_t* cond;
     vector<string>::iterator* it;
+    pthread_t *pthread;
 };
 
 class OpenDataServerCommand : public Command {

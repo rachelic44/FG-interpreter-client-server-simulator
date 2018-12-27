@@ -10,6 +10,7 @@ class Command{
 
 public:
     virtual double excecute()=0;
+    virtual ~Command() = default;
 
 };
 #endif //PROJECT_COMMAND_H

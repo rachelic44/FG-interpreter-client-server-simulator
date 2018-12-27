@@ -21,6 +21,7 @@ double SleepCommand::excecute() {
     (*it)++;
     Expression *e = new ShuntingYard(this->varMap, it, bindMap);
     int val = e->evaluate();
+    delete e;
     sleep(val/1000);
 
 }

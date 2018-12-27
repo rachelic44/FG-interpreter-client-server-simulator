@@ -48,6 +48,6 @@ double CommandAssign::excecute() {
         }
         this->varMap->at(var)=value; //not supposed to reach here, it is assign.
     }
-    int yy =5;
+
 
 }

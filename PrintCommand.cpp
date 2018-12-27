@@ -32,6 +32,7 @@ double PrintCommand::excecute() {
     } else {
         e = new ShuntingYard(this->varMap,(it),bindMap);
         cout << e->evaluate()<<endl;
+        delete e;
     }
     return index;
 

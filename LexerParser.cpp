@@ -56,7 +56,7 @@ vector<string> LexerParser::splitter(string str) {
             i++;
         } else {
 
-            while ((str[i] == ' ') || (str[i] == '\n') || (str[i] == '\r') || (str[i] == '\0')) {
+            while ( (i < str.length()) && ((str[i] == ' ') || (str[i] == '\n') || (str[i] == '\r') || (str[i] == '\0'))) {
                 i++;
             }
             tokens.push_back(word);
@@ -113,6 +113,6 @@ void LexerParser::parser(vector<string> stringVector) {
 
     }
     BoolSingelton::instance()->setValueOfThreadCloase(true);
-    delete mutex;
+   // delete mutex;
 
 }

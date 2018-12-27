@@ -95,7 +95,7 @@ bool isNewLine(std::string& data) {
 
 
 void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthread_mutex_t *mutex1,
-                    pthread_cond_t *cond,vector<string>::iterator* it) {
+                    pthread_cond_t *cond,vector<string>::iterator* it,pthread_t* pthread) {
     //pthread_mutex_lock(&mutex);
 
 
@@ -187,6 +187,9 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
     /* Close socket. */
     close(newsockfd);
     close(ins->getSocketOfOpenedServer());
+    delete(mutex1);
+   // close(*pthread);
+    cout<<"closed pthread";
 }
 
 
@@ -197,7 +200,7 @@ void *threadOpen(void *params) {
     int port = parameters->portPa;
     int hz = parameters->hertzPa;
 
-    readFromServer(map, port, hz, parameters->mutex, parameters->cond,parameters->it);
+    readFromServer(map, port, hz, parameters->mutex, parameters->cond,parameters->it,parameters->pthread);
 
 }
 
@@ -217,7 +220,9 @@ double OpenDataServerCommand::excecute() {
     params->it=this->it;
 
 
+
     pthread_t pthread;
+    params->pthread=&pthread;
     if (pthread_create(&pthread, nullptr, threadOpen, (void *) (params)) != 0) {
         perror("A problem accured");
     }

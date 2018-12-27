@@ -1,5 +1,5 @@
 openDataServer 5500-100 , -10+ 20
-connect 192.168.1.12 5402
+connect 172.18.32.202 5402
 var breaks = bind "/controls/flight/speedbrake"
 var throttle = bind "/controls/engines/current-engine/throttle"
 var heading = bind "/instrumentation/heading-indicator/indicated-heading-deg"
@@ -18,19 +18,14 @@ sleep 5000
 var h0 = heading
 breaks = 0
 throttle = 1
-while alt < 1000 {
-    print "heading"
-    print heading
+while alt < 400 {
     rudder=(h0-heading) / 80
-    print "rudder"
-    print rudder
-    print "roll"
-    print roll
     aileron = -roll/ 70
     print "aileron"
     print aileron
     print pitch
     elevator=pitch/50
-    print elevator
+    print "alt" print alt
     sleep 250
 }
+print "Done"

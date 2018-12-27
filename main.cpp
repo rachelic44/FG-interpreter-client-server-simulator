@@ -101,7 +101,11 @@ if(args==1) {
 //   char a;
 //   cin>>a;
 
-   // pthread_exit(nullptr);
-   return 0;
+
+
+
+    pthread_exit(nullptr);
+
+   //return 0;
 
 }
