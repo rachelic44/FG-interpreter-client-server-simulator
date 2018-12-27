@@ -1,13 +1,14 @@
-//
-// Created by user on 17/12/18.
-//
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #ifndef PROJECT_SHUNTINGYARD_H
 #define PROJECT_SHUNTINGYARD_H
 #include <iostream>
 #include "Expression.h"
 #include "BinaryExpression.h"
-#include "UnaryExpression.h"
 #include "Plus.h"
 #include "Minus.h"
 #include "Divide.h"

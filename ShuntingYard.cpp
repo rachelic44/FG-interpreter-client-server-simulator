@@ -1,6 +1,8 @@
-//
-// Created by user on 17/12/18.
-//
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #include "ShuntingYard.h"
 
@@ -97,7 +99,7 @@ double ShuntingYard::evaluate() {
     stack<char> operatorStack;
     stack<string> finalStack;
 
-    int i = 0, sign=0, keep=0;
+    unsigned int i = 0, sign=0, keep=0;
     //go over the string
     while (i < tokens.length()) {
         //if it is (+ - / * ), then push it to the stack according to the arithmetic order

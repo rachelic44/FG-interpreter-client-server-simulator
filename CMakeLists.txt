@@ -17,22 +17,16 @@ add_executable(project14
     Command.h
     CommandAssign.cpp
     CommandAssign.h
-    CommandenterC.cpp
-    CommandenterC.h
-    CommandVar.cpp
+        CommandVar.cpp
     CommandVar.h
     ConditionParser.cpp
     ConditionParser.h
     ConnectCommand.cpp
     ConnectCommand.h
-    DataReaderServer.cpp
-    DataReaderServer.h
-    DictionaryPath.h
+        DictionaryPath.h
     Divide.cpp
     Divide.h
-    ExitCommand.cpp
-    ExitCommand.h
-    Expression.h
+        Expression.h
     ExpressionCommand.cpp
     ExpressionCommand.h
     ExpressionFactory.cpp
@@ -50,19 +44,14 @@ add_executable(project14
     Number.h
     OpenDataServerCommand.cpp
     OpenDataServerCommand.h
-    OpenServerCommand.cpp
-    OpenServerCommand.h
-    Plus.cpp
+        Plus.cpp
     Plus.h
-    pml.cpp
-    pml.h
-    PrintCommand.cpp
+        PrintCommand.cpp
     PrintCommand.h
     ShuntingYard.cpp
     ShuntingYard.h
     SleepCommand.cpp
     SleepCommand.h
     SymbolTableMap.h
-    UnaryExpression.h
-    WhileCommand.cpp
+        WhileCommand.cpp
     WhileCommand.h)

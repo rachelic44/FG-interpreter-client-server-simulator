@@ -1,3 +1,9 @@
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
+
 #include "PrintCommand.h"
 #include "ShuntingYard.h"
 #include <ostream>

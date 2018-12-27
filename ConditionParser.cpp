@@ -1,6 +1,8 @@
-//
-// Created by user on 19/12/18.
-//
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #include "ConditionParser.h"
 #include "ShuntingYard.h"
@@ -24,7 +26,7 @@ string ConditionParser::sub(string str, int start, int end) {
 
 
 double ConditionParser::excecute() {
-
+    return 0;
 }
 
 bool ConditionParser::calculateHappens(int * index) {
@@ -90,7 +92,6 @@ bool ConditionParser::calculateHappens(int * index) {
         this->happens = false;
     }
 
-
     delete expression1;
     delete expression2;
     return this->happens;
@@ -98,7 +99,7 @@ bool ConditionParser::calculateHappens(int * index) {
 
 int ConditionParser::findS(string word, string f) {
     int j=0;
-    for(int i=0;i<word.length();i++) {
+    for(unsigned int i=0;i<word.length();i++) {
         if(word[i]==f[j]) {
             if(f.length()==2) {
                 if(word[i+1]!=f[j+1]) {

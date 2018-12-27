@@ -1,6 +1,8 @@
-//
-// Created by shanyyael on 12/25/18.
-//
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #ifndef PROJECT_BOOLSINGELTON_H
 #define PROJECT_BOOLSINGELTON_H

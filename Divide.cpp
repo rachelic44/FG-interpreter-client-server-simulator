@@ -1,6 +1,8 @@
-//
-// Created by user on 16/12/18.
-//
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #include "Divide.h"
 

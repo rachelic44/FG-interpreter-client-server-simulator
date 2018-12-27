@@ -1,7 +1,8 @@
-//
-// Created by user on 17/12/18.
-//
-
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 #include "CommandAssign.h"
 #include "ShuntingYard.h"
 #include "ExpressionFactory.h"
@@ -37,8 +38,10 @@ double CommandAssign::excecute() {
 
     if(this->bindMap->count(var)>0) {
         if(dictionary->count(bounded->at(var))>0) { //call the client t write it
+            pthread_mutex_lock(this->expressionFactory->getMutix());
             this->bindMap->at(var)=value;
             ConnectCommand::writeFunc(bounded->at(var));
+            pthread_mutex_unlock(this->expressionFactory->getMutix());
         } else if(this->varMap->count(bounded->at(var))>0){
             this->bindMap->at(var)=value;
         }
@@ -49,5 +52,6 @@ double CommandAssign::excecute() {
         this->varMap->at(var)=value; //not supposed to reach here, it is assign.
     }
 
+    return 0;
 
 }

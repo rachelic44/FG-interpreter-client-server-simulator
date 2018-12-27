@@ -1,6 +1,8 @@
-//
-// Created by user on 23/12/18.
-//
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #ifndef PROJECT_DICTIONARYPATH_H
 #define PROJECT_DICTIONARYPATH_H
@@ -42,7 +44,7 @@ public:
                                       "/controls/flight/flaps",
                                       "/controls/engines/current-engine/throttle",
                                       "/engines/engine/rpm"};
-            for(int i=0;i<pathVector.size();i++) {
+            for(unsigned int i=0;i<pathVector.size();i++) {
                 map_instance->setValue(pathVector[i],0);
             }
         }

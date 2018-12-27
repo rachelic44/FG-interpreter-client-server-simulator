@@ -1,8 +1,8 @@
-//
-// Created by user on 24/12/18.
-//
-
-
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #include <thread>
 #include <unistd.h>
@@ -23,5 +23,5 @@ double SleepCommand::excecute() {
     int val = e->evaluate();
     delete e;
     sleep(val/1000);
-
+    return 0;
 }

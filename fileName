@@ -19,6 +19,7 @@ var h0 = heading
 breaks = 0
 throttle = 1
 while alt < 400 {
+    print "roll" print roll
     rudder=(h0-heading) / 80
     aileron = -roll/ 70
     print "aileron"

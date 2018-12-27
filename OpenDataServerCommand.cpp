@@ -1,14 +1,14 @@
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
-//
 #include <iostream>
 #include "OpenDataServerCommand.h"
 #include "DictionaryPath.h"
 #include <map>
 #include <algorithm>
-
-//#define DEBUG
-//#define PORTDEBUG 5051
-
 
 OpenDataServerCommand::OpenDataServerCommand(map<string, double> *varMp, vector<string>::iterator *itt,
                                              map<string, double &> *bindMapp, ExpressionFactory *expressionFactory) {
@@ -39,7 +39,6 @@ vector<string> makeItSplitted(const char *buffer) {
 void updateMaps(std::string str, map<string,double>* dictionaryMap) {
 
     double values[23]; /* Array for the values. */
-    char* p;          /* Tell's us if the conversion to double worked. */
     std::stringstream parser; /* Parse out string by commas */
     int counter = 0; /* Tells us which index to set. */
 
@@ -77,11 +76,6 @@ void updateMaps(std::string str, map<string,double>* dictionaryMap) {
     dictionaryMap->at("/controls/flight/flaps")=values[20];
     dictionaryMap->at("/controls/engines/current-engine/throttle")=values[21];
     dictionaryMap->at("/engines/engine/rpm")=values[22];
-
-
-    cout<<endl<<"the aileron ";
-    cout<<dictionaryMap->at("/controls/flight/aileron")<<endl;
-
 }
 /**
  * Check's if the char* has a \n char.
@@ -105,7 +99,6 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
     int readBytes;            /* The bytes we currently read. */
     int sockfd, newsockfd, portno, clilen;
     struct sockaddr_in serv_addr{}, cli_addr{};
-    int n;
     /* First call to socket() function */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
@@ -172,8 +165,6 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
                     updateMaps(tillNewLine, dictionaryMap);
                     pthread_mutex_unlock(mutex1);
                 }
-                cout<<"success"<<endl;
-
 
                 tillNewLine = "";
                 dataRead.clear();
@@ -183,13 +174,11 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
         tostopTheThread=ins->getDataIsOpenOfThreadCloase();
     }
 
-    cout<<"reached EndOFThred"<<endl;
     /* Close socket. */
     close(newsockfd);
     close(ins->getSocketOfOpenedServer());
     delete(mutex1);
    // close(*pthread);
-    cout<<"closed pthread";
 }
 
 
@@ -201,6 +190,7 @@ void *threadOpen(void *params) {
     int hz = parameters->hertzPa;
 
     readFromServer(map, port, hz, parameters->mutex, parameters->cond,parameters->it,parameters->pthread);
+    return 0;
 
 }
 
@@ -227,4 +217,5 @@ double OpenDataServerCommand::excecute() {
         perror("A problem accured");
     }
     // pthread_mutex_unlock(&mutex);
+    return 0;
 }

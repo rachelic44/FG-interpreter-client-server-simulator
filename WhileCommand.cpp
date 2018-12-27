@@ -1,6 +1,8 @@
-//
-// Created by user on 19/12/18.
-//
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #include <iostream>
 #include "WhileCommand.h"
@@ -8,7 +10,7 @@
 
 
 double WhileCommand::excecute() {
-    int index=0; int pos=0;
+    int index=0;
     vector<string>::iterator last=(*it);
     vector<string>::iterator p;
     while(this->calculateHappens(&index)) {

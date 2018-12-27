@@ -1,7 +1,9 @@
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
-//
-// Created by shanyyael on 12/24/18.
-//
 #ifndef PROJECT_SLEEPCOMMAND_H
 #define PROJECT_SLEEPCOMMAND_H
 

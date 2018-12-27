@@ -1,6 +1,8 @@
-//
-// Created by user on 16/12/18.
-//
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #include <vector>
 #include <queue>
@@ -26,7 +28,7 @@ vector<string> LexerParser::splitter(string str) {
 
     // Vector of string to save tokens
     vector<string> tokens;
-    int i = 0, sign=0;
+    unsigned int i = 0;
     string word = "";
     while(i<(str.length()-1)) {
         if ((str[i] == '=') || (str[i] == '{') || (str[i] == '}')) {
@@ -95,7 +97,7 @@ void LexerParser::parser(vector<string> stringVector) {
     mapp.insert({VAR,expressionFactory.create("+")});*/ //!!!
 
     //go over the list and for each command - execute it.
-    int j=0, i=0;
+    int j=0;
     while (it != this->lexeredWord.end() && (*it) != "\n") {
 
         j++;

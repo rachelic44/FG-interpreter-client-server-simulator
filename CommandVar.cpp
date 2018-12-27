@@ -1,7 +1,8 @@
-//
-// Created by user on 17/12/18.
-//
-
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 #include "CommandVar.h"
 #include "CommandAssign.h"
 #include "ShuntingYard.h"

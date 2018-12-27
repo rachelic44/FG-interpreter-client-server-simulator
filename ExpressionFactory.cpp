@@ -1,6 +1,8 @@
-//
-// Created by user on 18/12/18.
-//
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #include "ExpressionFactory.h"
 #include "ExpressionCommand.h"
@@ -11,7 +13,6 @@
 #include "PrintCommand.h"
 #include "ShuntingYard.h"
 #include "BindCommand.h"
-#include "CommandenterC.h"
 #include "OpenDataServerCommand.h"
 #include "ConnectCommand.h"
 #include "SleepCommand.h"
@@ -69,14 +70,6 @@ Expression *ExpressionFactory::create(string word) {
         this->vecToRelaseCommands.push_back(com);
         return expressionToReturn;
     }
-    if(word=="enterc") {
-        cout<<"----connecetd0";
-        Command* com=new CommandenterC(it);
-        Expression* expressionToReturn=new ExpressionCommand(com);
-        this->vecToReleaseMemory.push_back(expressionToReturn);
-        this->vecToRelaseCommands.push_back(com);
-        return expressionToReturn;
-    }
     if(word=="openDataServer") {
         Command* com=new OpenDataServerCommand(varMap, it, bindMap,this);
         Expression* expressionToReturn=new ExpressionCommand(com);
@@ -85,7 +78,6 @@ Expression *ExpressionFactory::create(string word) {
         return expressionToReturn;
     }
     if(word=="connect") {
-       // cout<<"connecetd0"; todo check - came here too many times
        Command* com =new ConnectCommand(varMap, it, bindMap,this);
         Expression* expressionToReturn=new ExpressionCommand(com);
         this->vecToReleaseMemory.push_back(expressionToReturn);

@@ -1,4 +1,8 @@
-
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #ifndef PROJECT_PRINTCOMMANDER_H
 #define PROJECT_PRINTCOMMANDER_H

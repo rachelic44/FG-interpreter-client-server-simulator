@@ -1,6 +1,8 @@
-//
-// Created by shanyyael on 12/24/18.
-//
+/**
+ * Flight Gear Project
+ * By Racheli Copperman 315597575
+ * By Yael Dagan 307894899
+ */
 
 #include "ConnectCommand.h"
 #include "DictionaryPath.h"
@@ -40,7 +42,6 @@ void ConnectCommand::writeFunc(string path) {
     }
     const char *buffer=send.c_str();
     int sockID=BoolSingelton::instance()->getSocketOfOpenedServer();
-    cout<<"change " + send<<endl;
     int n=write(sockID, buffer, strlen(buffer));
     if (n < 0) {
         perror("ERROR writing to socket");
@@ -84,14 +85,10 @@ double ConnectCommand::excecute() {
             exit(1);
         }
         BoolSingelton::instance()->setSocketOfOpenedServer(sockfd);
-        cout << "connected2" << endl;
     } else {
         std::this_thread::__sleep_for(std::chrono::seconds(0),std::chrono::milliseconds(100));
     }
 
 
+    return 0;
     }
-
-
-
-

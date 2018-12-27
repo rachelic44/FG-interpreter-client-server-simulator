@@ -1,8 +1,0 @@
-//
-// Created by shanyyael on 12/19/18.
-//
-
-#ifndef PROJECT_OPENSERVERCOMMAND_H
-#define PROJECT_OPENSERVERCOMMAND_H
-
-#endif //PROJECT_OPENSERVERCOMMAND_H
