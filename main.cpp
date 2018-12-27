@@ -65,7 +65,7 @@ if(args==1) {
     LexerParser lexerParser;
     vector<string> vec = lexerParser.splitter(fileScript);
     lexerParser.parser(vec);
-    cout << lexerParser.getVarMap()->at("x");
+  //  cout << lexerParser.getVarMap()->at("x");
 
     //ShuntingYard shan(&map, nullptr);
 
@@ -101,6 +101,7 @@ if(args==1) {
 //   char a;
 //   cin>>a;
 
-    pthread_exit(nullptr);
+   // pthread_exit(nullptr);
+   return 0;
 
 }

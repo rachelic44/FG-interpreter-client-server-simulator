@@ -35,34 +35,6 @@ vector<string> makeItSplitted(const char *buffer) {
     return vec;
 }
 
-void initializeMap(map<string, double> *dictionaryMap, const char *buffer) {
-    vector<string> splitted = makeItSplitted(buffer);
-    dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt") = stod(splitted[0]);
-    dictionaryMap->at("/instrumentation/altimeter/indicated-altitude-ft") = stod(splitted[1]);
-    dictionaryMap->at("/instrumentation/altimeter/pressure-alt-ft") = stod(splitted[2]);
-    dictionaryMap->at("/instrumentation/attitude-indicator/indicated-pitch-deg") = stod(splitted[3]);
-    dictionaryMap->at("/instrumentation/attitude-indicator/indicated-roll-deg") = stod(splitted[4]);
-    dictionaryMap->at("/instrumentation/attitude-indicator/internal-pitch-deg") = stod(splitted[5]);
-    dictionaryMap->at("/instrumentation/attitude-indicator/internal-roll-deg") = stod(splitted[6]);
-    dictionaryMap->at("/instrumentation/encoder/indicated-altitude-ft") = stod(splitted[7]);
-    dictionaryMap->at("/instrumentation/encoder/pressure-alt-ft") = stod(splitted[8]);
-    dictionaryMap->at("/instrumentation/gps/indicated-altitude-ft") = stod(splitted[9]);
-    dictionaryMap->at("/instrumentation/gps/indicated-ground-speed-kt") = stod(splitted[10]);
-    dictionaryMap->at("/instrumentation/gps/indicated-vertical-speed") = stod(splitted[11]);
-    dictionaryMap->at("/instrumentation/heading-indicator/indicated-heading-deg") = stod(splitted[12]);
-    dictionaryMap->at("/instrumentation/magnetic-compass/indicated-heading-deg") = stod(splitted[13]);
-    dictionaryMap->at("/instrumentation/slip-skid-ball/indicated-slip-skid") = stod(splitted[14]);
-    dictionaryMap->at("/instrumentation/turn-indicator/indicated-turn-rate") = stod(splitted[15]);
-    dictionaryMap->at("/instrumentation/vertical-speed-indicator/indicated-speed-fpm") = stod(splitted[16]);
-    dictionaryMap->at("/controls/flight/aileron") = stod(splitted[17]);
-    dictionaryMap->at("/controls/flight/elevator") = stod(splitted[18]);
-    dictionaryMap->at("/controls/flight/rudder") = stod(splitted[19]);
-    dictionaryMap->at("/controls/flight/flaps") = stod(splitted[20]);
-    dictionaryMap->at("/controls/engines/engine/throttle") = stod(splitted[21]);
-    dictionaryMap->at("/engines/engine/rpm") = stod(splitted[22]);
-
-    cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt");
-}
 
 void updateMaps(std::string str, map<string,double>* dictionaryMap) {
 
@@ -106,15 +78,7 @@ void updateMaps(std::string str, map<string,double>* dictionaryMap) {
     dictionaryMap->at("/controls/engines/current-engine/throttle")=values[21];
     dictionaryMap->at("/engines/engine/rpm")=values[22];
 
-//    cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt")<<endl;
-//    cout<<dictionaryMap->at("/instrumentation/airspeed-indicator/indicated-speed-kt")<<endl;
-//    cout<<dictionaryMap->at("/instrumentation/altimeter/indicated-altitude-ft")<<endl;
-//    cout<<dictionaryMap->at("/instrumentation/altimeter/pressure-alt-ft")<<endl;
-//    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/indicated-pitch-deg")<<endl;
-//    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/indicated-roll-deg")<<endl;
-//    cout<< dictionaryMap->at("/instrumentation/attitude-indicator/internal-pitch-deg")<<endl;
-//    cout<<dictionaryMap->at("/instrumentation/attitude-indicator/internal-roll-deg")<<endl;
-//    cout<<dictionaryMap->at("/instrumentation/encoder/indicated-altitude-ft")<<endl;
+
     cout<<endl<<"the aileron ";
     cout<<dictionaryMap->at("/controls/flight/aileron")<<endl;
 
@@ -172,7 +136,9 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
 
 
     // Endless loop, read data until program finishes.
-    while (true) {
+    BoolSingelton* ins=BoolSingelton::instance();
+    bool tostopTheThread=ins->getDataIsOpenOfThreadCloase();
+    while (!tostopTheThread) {
 
         /* Read socket. */
         bzero(buffer, 1024);
@@ -182,13 +148,6 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
             throw "Could not read from client."; /* If failed throw. */
         } else {
             BoolSingelton::instance()->setValue(true);
-
-           // cout<<"Server Is OPEN)";
-           // (*it)++;
-            /* If server opened, notify main thread. */
-           // if (!maps->isServerOpen) {
-           //     maps->isServerOpen = true;
-          //  }
 
             /* Save our read data in a string. */
             dataRead += buffer;
@@ -220,66 +179,16 @@ void readFromServer(map<string, double> *dictionaryMap, int portNU, int hz, pthr
                 dataRead.clear();
             }
         }
+        sleep(hz/1000);
+        tostopTheThread=ins->getDataIsOpenOfThreadCloase();
     }
 
+    cout<<"reached EndOFThred"<<endl;
     /* Close socket. */
     close(newsockfd);
+    close(ins->getSocketOfOpenedServer());
 }
 
-
-
-       /* bzero(buffer, 1024);
-        n = read(newsockfd, buffer, 1023);
-
-        if (n < 0) {
-            throw "Failed to read from client.";
-        }
-        pthread_mutex_lock(mutex1);
-        initializeMap(dictionaryMap,buffer);
-        pthread_mutex_unlock(mutex1);
-        cout<<"success"<<endl;
-
-        if (n < 0) {
-            perror("ERROR reading from socket");
-            exit(1);
-        }
-        if (n < 0) {
-            perror("ERROR writing to socket");
-            exit(1);
-        }
-        sleep(1 / 10);*/
-
-
-
-
-//    while (true) {
-//
-//        bzero(buffer, 1024);
-//        n = read(newsockfd, buffer, 1023);
-//        pthread_mutex_lock(mutex1);
-//        initializeMap(dictionaryMap, buffer);
-//        cout << "success\n" << endl;
-//        cout.flush();
-//        const char* message = "success\n";
-//        write(newsockfd, message, strlen(message));
-//        pthread_mutex_unlock(mutex1);
-//
-//
-//        if (n < 0) {
-//            perror("ERROR reading from socket");
-//            exit(1);
-//        }
-//        if (n < 0) {
-//            perror("ERROR writing to socket");
-//            exit(1);
-//        }
-//        sleep(1/10);
-//        // pthread_cond_signal(cond);
-//    }
-//
-//    // pthread_cond_signal(&cond);
-//    //pthread_mutex_unlock(&mutex);
-//}
 
 
 void *threadOpen(void *params) {
@@ -287,7 +196,6 @@ void *threadOpen(void *params) {
     map<string, double> *map = parameters->maap;
     int port = parameters->portPa;
     int hz = parameters->hertzPa;
-
 
     readFromServer(map, port, hz, parameters->mutex, parameters->cond,parameters->it);
 

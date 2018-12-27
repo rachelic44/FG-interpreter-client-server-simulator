@@ -50,6 +50,13 @@ bool isLastOperator(char next) {
 string ShuntingYard::evaluateTokens(vector<string>::iterator *it) {
     string current=(*(*it));
     int keep=0;
+    if(current[0]==',') {
+        current.erase(0,1);
+        if(current=="" ){
+            (*it)++;
+            current=(*(*it));
+        }
+    }
     if(isOpenOperator(current[current.length()-1]) ) {
         keep++;
     } else {
@@ -158,7 +165,9 @@ double ShuntingYard::evaluate() {
 
 
     Expression* result=calculate(&finalStack);
-    return result->evaluate();
+    this->exp=result;
+    double val= result->evaluate();
+    return val;
 }
 
 
@@ -196,21 +205,33 @@ void ShuntingYard::addAnArithmetic(stack<char> *operatorStack, stack<string> *fi
 
 //recursive function to make the stack an Expression
 Expression* ShuntingYard::calculate(stack<string> *finalStack) {
-    Plus* plus=new Plus(); Multiply* multiply=new Multiply; Minus* minus=new Minus; Divide* divide=new Divide;
-    this->vecToRelease.push_back(plus); this->vecToRelease.push_back(minus);
-    this->vecToRelease.push_back(divide); this->vecToRelease.push_back(multiply);
-    map<string,Expression*> arithmeticMap={{"+",plus},{"-",minus},{"/",divide},{"*",multiply}};
+
 
     string current=finalStack->top();
-    Expression *expression;
-    if (current == "+" || current == "-" || current == "/" || current == "*") {
-        expression=arithmeticMap.at(current);
+    int sign=0;
+    Expression * expression;
+    if (current == "+") {
+        sign++;
+        expression= new Plus();
+    }
+    if (current == "-") {
+        sign++;
+        expression= new Minus();
+    }
+    if (current == "*") {
+        sign++;
+        expression= new Multiply();
+    }
+    if (current == "/") {
+        sign++;
+        expression= new Divide();
+    }
+    if(sign!=0) {
         finalStack->pop();
         expression->setValues(calculate(finalStack),calculate(finalStack));
         return expression;
     } else {
-        Expression* num=new Number(current);
-        this->vecToRelease.push_back(num);
+        Number* num=new Number(current);
         finalStack->pop();
         return num;
     }

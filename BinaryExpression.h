@@ -70,5 +70,10 @@ double evaluate() {
     
 }
 
+~BinaryExpression() {
+    delete this->leftExpression;
+    delete this->rightExpression;
+    delete this;
+}
 };
 #endif //PROJECT_BINARYEXPRESSION_H

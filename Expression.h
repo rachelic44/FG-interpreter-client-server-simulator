@@ -25,6 +25,7 @@ public:
 
      virtual void setValues(Expression* exp1,Expression* exp2)=0;
 
+
 };
 
 #endif //PROJECT_EXPRESSION_H

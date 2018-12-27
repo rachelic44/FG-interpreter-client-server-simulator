@@ -14,6 +14,8 @@ using namespace std;
 class BoolSingelton {
 
     bool dataIsOpen=false;
+    bool stopTheThread=false;
+    int socket;
     static BoolSingelton *boolInstance;
 public:
     static inline BoolSingelton *instance() {
@@ -30,6 +32,21 @@ public:
 
     inline bool getDataIsOpen() {
         return dataIsOpen;
+    }
+
+    inline void setValueOfThreadCloase(bool b) {
+        stopTheThread=b;
+    }
+
+    inline bool getDataIsOpenOfThreadCloase() {
+        return stopTheThread;
+    }
+
+    inline int getSocketOfOpenedServer() {
+        return socket;
+    }
+    inline void setSocketOfOpenedServer(int s) {
+        socket=s;
     }
 
 

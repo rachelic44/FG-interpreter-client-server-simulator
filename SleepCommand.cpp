@@ -5,8 +5,10 @@
 
 
 #include <thread>
+#include <unistd.h>
 #include "SleepCommand.h"
 #include "ShuntingYard.h"
+
 
 SleepCommand::SleepCommand(map<string, double> *varMap, vector<string>::iterator *it, map<string, double &> *bindMap) {
     this->bindMap = bindMap;
@@ -17,9 +19,8 @@ SleepCommand::SleepCommand(map<string, double> *varMap, vector<string>::iterator
 
 double SleepCommand::excecute() {
     (*it)++;
-    Expression *e;
-    e = new ShuntingYard(this->varMap, it, bindMap);
+    Expression *e = new ShuntingYard(this->varMap, it, bindMap);
     int val = e->evaluate();
-    std::this_thread::__sleep_for(chrono::seconds(0), chrono::milliseconds(val));
+    sleep(val/1000);
 
 }

@@ -18,7 +18,6 @@
 
 using namespace std;
 
-static int sockId;
 
 
 ConnectCommand::ConnectCommand(map<string, double> *varMp, vector<string>::iterator *itt,
@@ -32,18 +31,19 @@ ConnectCommand::ConnectCommand(map<string, double> *varMp, vector<string>::itera
 void ConnectCommand::writeFunc(string path) {
     map<string,double>* d=DictionaryPath::instance()->getMap();
 
-    string send;
+    string send; string copyPath=path;
+    copyPath.erase(0,1);
     if(d->count(path)>0) {
-        send = ("set " + path + " " + (to_string(d->at(path))) + "\r\n").c_str();
+        send = ("set " + copyPath + " " + (to_string(d->at(path))) + "\r\n").c_str();
     } else {
         __throw_logic_error("the path is not in the map");
     }
     const char *buffer=send.c_str();
-    int num=sockId;
+    int sockID=BoolSingelton::instance()->getSocketOfOpenedServer();
 
 
     cout<<"change " + send<<endl;
-    int n=write(sockId, buffer, strlen(buffer));
+    int n=write(sockID, buffer, strlen(buffer));
 
     if (n < 0) {
         perror("ERROR writing to socket");
@@ -99,7 +99,7 @@ double ConnectCommand::excecute() {
         }
 
 
-        sockId = sockfd;
+        BoolSingelton::instance()->setSocketOfOpenedServer(sockfd);
         cout << "connected2" << endl;
 
 

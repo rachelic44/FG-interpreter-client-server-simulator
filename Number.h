@@ -46,6 +46,9 @@ public:
          */
         string getValue();
 
+        ~Number() =default;
+
+
 };
 
 

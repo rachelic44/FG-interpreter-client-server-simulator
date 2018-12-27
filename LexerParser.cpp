@@ -15,6 +15,7 @@
 #include "CommandVar.h"
 #include "ExpressionFactory.h"
 #include "DictionaryPath.h"
+#include "BoolSingelton.h"
 
 #define VAR "v"
 
@@ -54,7 +55,7 @@ vector<string> LexerParser::splitter(string str) {
             word += str[i];
             i++;
         } else {
-            i++;
+
             while ((str[i] == ' ') || (str[i] == '\n') || (str[i] == '\r') || (str[i] == '\0')) {
                 i++;
             }
@@ -110,12 +111,8 @@ void LexerParser::parser(vector<string> stringVector) {
           }*/
         expressionFactory.create(*it)->evaluate();
 
-
     }
-//    map<string, double> *d =  DictionaryPath::instance()->getMap();
-//
-//    while(true) {
-//        cout<<d->at("/instrumentation/airspeed-indicator/indicated-speed-kt")<<endl;
-//        sleep(1/10);
-//    }
+    BoolSingelton::instance()->setValueOfThreadCloase(true);
+    delete mutex;
+
 }
