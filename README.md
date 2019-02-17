@@ -18,7 +18,7 @@ Of course, each command can also be an expression. so in order to connect both w
 Object Adapter - Design pattern. There is a class of "Expression command" that implements the "Expression" interface and contains 
 a refference to a command object.
 
-The process of the intepretation includes:
+*The process of the intepretation includes:*
 Lexer - to split the lines of the code into a vector of known commands.
 Parser - to go over the commands, and by using Factory - to create for each word it's own command and activate it's "execute" implemntation.
 
@@ -35,29 +35,22 @@ a socket and connect the server that the simulator runs, in order to send the si
 to press the throtle to 1 - means the engine can warm and the plane can start moving.
 
 An expample for a script that runs the plane: 
-openDataServer 5400 10
-connect 192.168.1.26 5402
-var warp = bind "/sim/time/warp"
-var magnetos = bind "/controls/switches/magnetos"
-var throttle = bind "/controls/engines/current-engine/throttle"
-var mixture = bind "/controls/engines/current-engine/mixture"
-var masterbat = bind "/controls/switches/master-bat"
-var masterlat = bind "/controls/switches/master-alt"
-var masteravionics = bind "/controls/switches/master-avionics"
-var brakeparking = bind "/sim/model/c172p/brake-parking"
-var primer = bind "/controls/engines/engine/primer"
-var starter = bind "/controls/switches/starter"
-var autostart = bind "/engines/active-engine/auto-start"
-var brake = bind "/controls/flight/speedbrake"
-var heading = bind "/instrumentation/heading-indicator/offset-deg"
-var airspeed = bind "/instrumentation/airspeed-indicator/indicated-speed-kt"
-var roll = bind "/instrumentation/attitude-indicator/indicated-roll-deg"
-var pitch = bind "/instrumentation/attitude-indicator/internal-pitch-deg"
-var rudder = bind "/controls/flight/rudder"
-var aileron = bind "/controls/flight/aileron"
-var elevator = bind "/controls/flight/elevator"
-var alt = bind "/instrumentation/altimeter/indicated-altitude-ft"
-var rpm = bind "/engines/engine/rpm"
+
+*openDataServer 5400 10
+*connect 192.168.1.26 5402
+*var warp = bind "/sim/time/warp"
+*var magnetos = bind "/controls/switches/magnetos"
+*var throttle = bind "/controls/engines/current-engine/throttle"
+*var autostart = bind "/engines/active-engine/auto-start"
+*var brake = bind "/controls/flight/speedbrake"
+*var heading = bind "/instrumentation/heading-indicator/offset-deg"
+*var airspeed = bind "/instrumentation/airspeed-indicator/indicated-speed-kt"
+*var roll = bind "/instrumentation/attitude-indicator/indicated-roll-deg"
+*var pitch = bind "/instrumentation/attitude-indicator/internal-pitch-deg"
+*var rudder = bind "/controls/flight/rudder"
+*var aileron = bind "/controls/flight/aileron"
+*var alt = bind "/instrumentation/altimeter/indicated-altitude-ft"
+*var rpm = bind "/engines/engine/rpm"
 
 print "waiting 2 minutes for gui"
 sleep 120000
