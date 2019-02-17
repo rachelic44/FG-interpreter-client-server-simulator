@@ -8,8 +8,8 @@ The interpreter will go over code lines written in a script (file/command line) 
 similiar to the JVM process.
 Each command is departed to it's own class, when each command has to implement the "excecute" method of the "command" interface,
 to activate the command.
-For example, the line "x= y*3" will be intepreted to "assign command", and it's "excecute" implementation will be to put
-the value of y*3 into the variable x. All variables sit in HashMap. (for O(1) time).
+For example, the line "x= y * 3" will be intepreted to "assign command", and it's "excecute" implementation will be to put
+the value of y * 3 into the variable x. All variables sit in HashMap. (for O(1) time).
 There is also the "Shunting Yard" class to recursievly calculate expressions like "x= (y+3) * 5/2 +3".
 In order to calculate such expressions, there is an "Expression" interface, from whom the "Binary expression" , "UnaryExpression" 
 and the "Variable" class inherit.
@@ -44,10 +44,6 @@ An expample for a script that runs the plane:
 *var throttle = bind "/controls/engines/current-engine/throttle"
 *var autostart = bind "/engines/active-engine/auto-start"
 *var brake = bind "/controls/flight/speedbrake"
-*var heading = bind "/instrumentation/heading-indicator/offset-deg"
-*var airspeed = bind "/instrumentation/airspeed-indicator/indicated-speed-kt"
-*var roll = bind "/instrumentation/attitude-indicator/indicated-roll-deg"
-*var pitch = bind "/instrumentation/attitude-indicator/internal-pitch-deg"
 *var rudder = bind "/controls/flight/rudder"
 *var aileron = bind "/controls/flight/aileron"
 *var alt = bind "/instrumentation/altimeter/indicated-altitude-ft"
