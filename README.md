@@ -18,7 +18,8 @@ Of course, each command can also be an expression. so in order to connect both w
 Object Adapter - Design pattern. There is a class of "Expression command" that implements the "Expression" interface and contains 
 a refference to a command object.
 
-*The process of the intepretation includes:*
+#The process of the intepretation includes:
+
 Lexer - to split the lines of the code into a vector of known commands.
 Parser - to go over the commands, and by using Factory - to create for each word it's own command and activate it's "execute" implemntation.
 
