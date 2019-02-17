@@ -1,5 +1,5 @@
 # FlightGearSimulatorW
-Flight Simulator. Visualize a real plane with it's system, controlled by the code that represents both the server and the client,
+Flight Simulator. Visualize a real plane with it's system, controlled by a multi-threaded code that represents both the server and the client,
 that give and send requests to the simulator. supporting the flight gear simualator (available for linux &amp; windows).
 
 This is the first part of the flight gear project written in c++.
