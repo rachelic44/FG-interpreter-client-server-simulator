@@ -38,11 +38,8 @@ to press the throtle to 1 - means the engine can warm and the plane can start mo
 An expample for a script that runs the plane: 
 
 *openDataServer 5400 10
-
 *connect 192.168.1.26 5402
-
 *var warp = bind "/sim/time/warp"
-
 *var magnetos = bind "/controls/switches/magnetos"
 *var throttle = bind "/controls/engines/current-engine/throttle"
 *var autostart = bind "/engines/active-engine/auto-start"
