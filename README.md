@@ -3,20 +3,28 @@ Flight Simulator. Visualize a real plane with it's system, controlled by the cod
 that give and send requests to the simulator. supporting the flight gear simualator (available for linux &amp; windows).
 
 This is the first part of the flight gear project written in c++.
-The first part focuses on building an interpreter for a new programming language. 
+
+The first part focuses on building an interpreter for a new programming language.
+
 The interpreter will go over code lines written in a script (file/command line) , written in the new language, and will interpret them,
 similiar to the JVM process.
+
 Each command is departed to it's own class, when each command has to implement the "excecute" method of the "command" interface,
 to activate the command.
+
 For example, the line "x= y * 3" will be intepreted to "assign command", and it's "excecute" implementation will be to put
 the value of y * 3 into the variable x. All variables sit in HashMap. (for O(1) time).
+
 There is also the "Shunting Yard" class to recursievly calculate expressions like "x= (y+3) * 5/2 +3".
+
 In order to calculate such expressions, there is an "Expression" interface, from whom the "Binary expression" , "UnaryExpression" 
 and the "Variable" class inherit.
+
 Each expression is recursievly calculated to it's value, using the Shunitng-Yard Algorithm (which is also a kind of expression).
 Of course, each command can also be an expression. so in order to connect both without changing existing code, I used the
 Object Adapter - Design pattern. There is a class of "Expression command" that implements the "Expression" interface and contains 
 a refference to a command object.
+
 
 #The process of the intepretation includes:
 
