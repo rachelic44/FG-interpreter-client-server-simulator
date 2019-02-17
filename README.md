@@ -36,6 +36,8 @@ a socket and connect the server that the simulator runs, in order to send the si
 to press the throtle to 1 - means the engine can warm and the plane can start moving.
 
 An expample for a script that runs the plane: 
+openDataServer 5400 10
+connect 192.168.1.26 5402
 
 openDataServer 5400 10
 connect 192.168.1.26 5402
