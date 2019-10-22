@@ -76,7 +76,7 @@ while alt < 400 {
     elevator=pitch/50  
     print "alt" print alt  
     sleep 250  
-}
+}  
 print "Done"  
 
 ******************************************************************************
@@ -89,9 +89,9 @@ print "Done"
 
 
 ******************************************************************************
-RUN COMMAND: 
-g++ *.cpp *.h -std=c++14 -Wall -pthread  
-./a.out File_Script_Name
+RUN COMMAND:   
+g++ *.cpp *.h -std=c++14 -Wall -pthread    
+./a.out File_Script_Name  
 *******************************************************************************
 
 
