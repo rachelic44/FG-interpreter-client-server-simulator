@@ -24,9 +24,9 @@
 #include "BoolSingelton.h"
 #include <fstream>
 
-DictionaryPath *DictionaryPath::map_instance = NULL;
-BoolSingelton* BoolSingelton::boolInstance=NULL;
-BoundMap *BoundMap::map_instance = NULL;
+DictionaryPath *DictionaryPath::map_instance = nullptr;
+BoolSingelton* BoolSingelton::boolInstance= nullptr;
+BoundMap *BoundMap::map_instance = nullptr;
 
 using namespace std;
 
