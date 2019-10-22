@@ -43,6 +43,58 @@ In order to avoid forever-blocking mode, the class opens the server on a differe
 a socket and connect the server that the simulator runs, in order to send the simulator instructions, such as to move the rudder,
 to press the throtle to 1 - means the engine can warm and the plane can start moving.
 
+******************************************************************************
+SCRIPT Example to run the programm with ( make sure to background open a simulator connection, a python server can work either.)
+
+openDataServer 5400 , 10
+connect 172.18.32.202 5402
+var breaks = bind "/controls/flight/speedbrake"
+var throttle = bind "/controls/engines/current-engine/throttle"
+var heading = bind "/instrumentation/heading-indicator/indicated-heading-deg"
+var airspeed = bind "/instrumentation/airspeed-indicator/indicated-speed-kt"
+var roll = bind "/instrumentation/attitude-indicator/indicated-roll-deg"
+var pitch = bind "/instrumentation/attitude-indicator/internal-pitch-deg"
+var rudder = bind "/controls/flight/rudder"
+var aileron = bind "/controls/flight/aileron"
+var elevator = bind "/controls/flight/elevator"
+var alt = bind "/instrumentation/altimeter/indicated-altitude-ft"
+var rpm = bind "/engines/engine/rpm"
+while rpm <= 750 {
+    sleep 1000
+}
+sleep 5000
+var h0 = heading
+breaks = 0
+throttle = 1
+while alt < 400 {
+    print "roll" print roll
+    rudder=(h0-heading) / 80
+    aileron = -roll/ 70
+    print "aileron"
+    print aileron
+    print pitch
+    elevator=pitch/50
+    print "alt" print alt
+    sleep 250
+}
+print "Done"
+
+******************************************************************************
+
+
+
+
+
+
+
+
+******************************************************************************
+RUN COMMAND: 
+g++ *.cpp *.h -std=c++14 -Wall -pthread
+./a.out File_Script_Name
+*******************************************************************************
+
+
 
 
 
